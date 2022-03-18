@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+<!--
+<div class='row'>
+	<div class='col-12 my-3'>
+		<h1>Products Viewed History</h1>
+		<hr/>
+	</div>
+    {% for obj in object_list %}
+        <div class='col'>
+            {{ forloop.counter }}
+            {% include 'products/snippets/card.html' with instance=obj.content_object %}
+        </div>
+    {% endfor %}
+</div>
+-->
+
+{% block content %}
+</div>
+<div class='container-fluid background-blue mb-4'>
+    <h2 class='text-center' style='color:white; padding-top:5px; padding-bottom:5px;'>Products Viewed History</h2>
+</div>
+
+<div class='container'>
+    <div class='row mb-4 pt-3'>
+        {% if query %}
+        <div class='col-12'>
+            Results for <b>{{ query }}</b>
+            <hr/>
+        </div>
+        {% else %}
+        <div class='col-12 mx-auto mt-2 pb-2'>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class='container'>
+    <div class='row'>
+        {% if not request.session.state_selected %}
+        <div class='col text-center mb-5'>
+            <h1> Please select a state in the header. </h1>
+        </div>
+        {% else %}
+            {% for obj in object_list %}
+                {% if request.session.state_selected == 'ACT' and obj.content_object.nsw_title %}
+                <div class='col-lg-3 col-md-6 col-sm-12 mb-4'>   
+                    {% include 'products/snippets/card.html' with instance=obj.content_object %}
+                </div>
+                {% elif request.session.state_selected == 'NSW' and obj.content_object.nsw_title %}
+                <div class='col-lg-3 col-md-6 col-sm-12 mb-4'>
+                    {% include 'products/snippets/card.html' with instance=obj.content_object %}
+                </div>
+                {% elif request.session.state_selected == 'NT' and obj.content_object.packed and obj.content_object.vic_title %}
+                <div class='col-lg-3 col-md-6 col-sm-12 mb-4'>
+                    {% include 'products/snippets/card.html' with instance=obj.content_object %}
+                </div>
+                {% elif request.session.state_selected == 'QLD' and obj.content_object.qld_title%}
+                <div class='col-lg-3 col-md-6 col-sm-12 mb-4'>
+                    {% include 'products/snippets/card.html' with instance=obj.content_object %}
+                </div>
+                {% elif request.session.state_selected == 'SA' and obj.content_object.packed and obj.content_object.vic_title %}
+                <div class='col-lg-3 col-md-6 col-sm-12 mb-4'>
+                    {% include 'products/snippets/card.html' with instance=obj.content_object %}
+                </div>
+                {% elif request.session.state_selected == 'TAS' and obj.content_object.wa_title %}
+                <div class='col-lg-3 col-md-6 col-sm-12 mb-4'>
+                    {% include 'products/snippets/card.html' with instance=obj.content_object %}
+                </div>
+                {% elif request.session.state_selected == 'VIC' and obj.content_object.vic_title %}
+                <div class='col-lg-3 col-md-6 col-sm-12 mb-4'>
+                    {% include 'products/snippets/card.html' with instance=obj.content_object %}
+                </div>
+                {% elif request.session.state_selected == 'WA' and obj.content_object.packed and obj.content_object.vic_title %}
+                <div class='col-lg-3 col-md-6 col-sm-12 mb-4'>
+                    {% include 'products/snippets/card.html' with instance=obj.content_object %}
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

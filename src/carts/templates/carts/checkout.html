@@ -1,0 +1,234 @@
+{% extends "base.html" %} {% block content %} {% if not billing_profile %} {% load humanize %}
+<div class='row text-center'>
+    <div class='col-12 col-md-6'>
+        <p class='lead' >Login</p>
+        {% include 'accounts/snippets/form.html' with form=login_form next_url=request.build_absolute_uri %}
+    </div>
+    <div class='col-12 col-md-6'>
+        Continue as Guest {% url "guest_register" as guest_register_url %} {% include 'accounts/snippets/form.html' with form=guest_form next_url=request.build_absolute_uri action_url=guest_register_url %}
+    </div>
+</div>
+{% else %} {% if not object.shipping_address %}
+</div>
+<div class='container-fluid background-blue mb-4'>
+    <h2 class='text-center' style='color:white; padding-top:5px; padding-bottom:5px;'>CHECKOUT</h2>
+</div>
+<div class='container'>
+<div class='row'>
+    <div class='col-lg-6 col-md-6 col-sm-12 mb-2'>
+        <h3>PREVIOUS SHIPPING ADDRESSES</h3>
+        <div class='border-square-blue' style='padding:10px; float:none; margin: 0 auto;'>
+            {% url 'checkout_address_reuse' as checkout_address_reuse %} {% include 'addresses/prev_addresses.html' with address_qs=address_qs next_url=request.build_absolute_uri address_type='shipping' action_url=checkout_address_reuse %}
+        </div>
+    </div>
+    <div class='col-lg-6 col-md-6 col-sm-12'>
+        <h3>NEW SHIPPING ADDRESS</h3>
+        {% url "checkout_address_create" as checkout_address_create %} {% include 'addresses/shipping_form.html' with form=address_form next_url=request.build_absolute_uri action_url=checkout_address_create address_type='shipping' %}
+    </div>
+</div>
+{% elif not object.billing_address %}
+<div class='container'>
+<div class='row'>
+    <div class='col-lg-6 col-md-6 col-sm-12 mb-2'>
+        <h3>PREVIOUS BILLING ADDRESSES</h3>
+        <div class='border-square-blue' style='padding:10px; float:none; margin: 0 auto;'>
+        {% url 'checkout_address_reuse' as checkout_address_reuse %} {% include 'addresses/prev_addresses.html' with address_qs=address_qs next_url=request.build_absolute_uri address_type='billing' action_url=checkout_address_reuse %}
+        </div>
+    </div>
+    <div class='col-lg-6 col-md-6 col-sm-12'>
+        <h3>NEW BILLING ADDRESS</h3>
+        {% url "checkout_address_create" as checkout_address_create %} {% include 'addresses/billing_form.html' with form=address_form next_url=request.build_absolute_uri action_url=checkout_address_create address_type='billing' %}
+    </div>
+</div>
+</div>
+{% else %}
+</div>
+<div class='container-fluid background-blue mb-4'>
+    <h2 class='text-center' style='color:white; padding-top:5px; padding-bottom:5px;'>FINALISE CHECKOUT</h2>
+</div>
+<!-- Paypal send order_id to the next view -->
+<form method='POST' action="{% url 'cart:success' %}"> {% csrf_token %}
+    <input class='order_id' type='hidden' name='order_id' value='{{ object.order_id }}' />
+    <input type="submit" id='paypal_checkout_button' value="checkout" style='display: none;'>
+</form>
+<div class='container'>
+<div class='container'>
+    <div class='row'>
+        <div class='col-lg-7 col-md-6'>
+            <table class="table cart-table">
+                <tbody class='cart-body'>
+                    {% for item in object.cart.cartitem_set.all %}
+                        <tr class='cart-product'>
+                          <td style='border-top:0px'>
+                            <div class='row'>
+                                <div class='col-3'>
+                                    <a href="{{ item.product.get_absolute_url }}">
+                                        <img style='max-width:100%' src="{{ item.product.imageoption_set.first.option.image.url }}" alt="">
+                                    </a>
+                                </div>
+                                <div class='col-7'>
+                                    <a class='text-blue' id='item_name' href='{{ item.product.get_absolute_url }}'>
+                                          {% if request.session.state_selected == 'ACT' %}
+                                            {{ item.product.nsw_title }}
+                                          {% elif request.session.state_selected == 'NSW' %}
+                                            {{ item.product.nsw_title }}
+                                          {% elif request.session.state_selected == 'NT' %}
+                                            {{ item.product.vic_title }}
+                                          {% elif request.session.state_selected == 'QLD' %}
+                                            {{ item.product.qld_title }}
+                                          {% elif request.session.state_selected == 'SA' %}
+                                            {{ item.product.vic_title }}
+                                          {% elif request.session.state_selected == 'TAS' %}
+                                            {{ item.product.wa_title }}
+                                          {% elif request.session.state_selected == 'VIC' %}
+                                            {{ item.product.vic_title }}
+                                          {% elif request.session.state_selected == 'WA' %}
+                                            {{ item.product.vic_title }}
+                                          {% else %}
+                                            {{ item.product.title }}
+                                          {% endif %}
+                                    </a>
+                                    <br/>
+                                    <span style='font-size:11px;'>
+                                        $<span id='item.price'>{{ item.price|intcomma }}</span>
+                                    </span>
+                                    {% if item.colour %}
+                                    <br/>
+                                    <!-- COLOUR -->
+                                    <span style='font-size:11px;'>
+                                        COLOUR: <span id='item_colour'> {{ item.colour }} </span>
+                                    </span>
+                                    {% endif %}
+
+                                    <!-- LENGTH -->
+                                    {% if item.length %}
+                                    <br/>
+                                    <span style='font-size:11px;'>
+                                        LENGTH: <span id='item_length'> {{ item.length }} </span>
+                                    </span>
+                                    {% endif %}
+
+                                    <!-- ADDITIONAL -->
+                                    {% if item.additional_drop_down %}
+                                    <br/>
+                                    <span style='font-size:11px;'>
+                                        ADDITIONAL: <span id='item_additional'> {{ item.additional_drop_down }} </span>
+                                    </span>
+                                    {% endif %}
+
+                                    <!-- QUANTITY -->
+                                    <br/>
+                                    QUANTITY:
+                                    </span>
+                                    <div class='row'>
+                                        <div class='col-lg-8 col-md-8 col-sm-9 col-xs-12'>
+                                            <div class="input-group mb-3">
+                                                <input type="number" id="qty_input" class="form-control form-control-sm text-center" value="{{item.quantity}}" min="1" style="border-radius:0;" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='values col-lg-2 col-md-2 col-sm-12 text-center' name=''>
+                                    {% include 'carts/snippets/remove-product.html' with product=item %}
+                                </div>
+                            </div>
+                          </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class='col-lg-5 col-md-6 mb-3'>
+            <div class="card" style='border-radius: 0;'>
+            <div class="card-header text-center" style='border-radius: 0;'>
+                <span class='text-blue'>
+                    ORDER SUMMARY
+                </span>
+            </div>
+              <div class="card-body" style='border-radius: 0;'>
+                <div class='row'>
+                    <div class='col-6 text-left'>
+                        <strong>SUBTOTAL</strong> <span class='cart-count'>{{ cart.cartitem_set.count }}</span> ITEMS
+                    </div>
+                    <div class='col-6 text-right'>
+                        <span class='cart-subtotal' style='font-weight: bold;'>${{ object.cart.subtotal|floatformat:2|intcomma }}</span>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col-6 text-left'>
+                        DELIVERY
+                    </div>
+                    <div class='col-6 text-right'>
+                        <span id='shipping'>${{ object.shipping_total }}</span>
+                        <br/>
+                        <span id='express' hidden>Express Shipping? +$8.00</span>
+                        <input class='ml-2 mr-1' type="checkbox" name='{{ object.order_id }}' id='express-check' hidden>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col-6 text-left'>
+                        GST
+                        <br/>
+                        <br/>
+                        <strong>TOTAL</strong>
+                    </div>
+                    <div class='col-6 text-right'>
+                        <span class='cart-tax'>${{ object.cart.taxes|floatformat:2|intcomma }}</span>
+                        <br/>
+                        <br/>
+                        <span class='cart-total' style='font-weight: bold;' id='cart-change-total'>${{ object.total|floatformat:2|floatformat:2|intcomma }}</span>
+                    </div>
+                </div>
+              </div>
+              <div class="loading" id='loading' style='display: none;'>Loading&#8230;</div>
+              <div class="card-footer text-muted">
+                {% include 'carts/snippets/paypal.html' %}
+                {% if not has_card %}
+                <br/>
+                <div class='border-square-blue'>
+                    <h4 class='m-2'>Card Payment</h4>
+                    <!-- enter credit card here -->
+                    <div class='stripe-payment-form' data-token='{{ publish_key }}' data-next-url='{{ request.build_absolute_uri }}' data-btn-title='ADD CARD'></div>
+                </div>
+                </form>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+                {% else %}
+                <form class='form mt-3' method='POST' action="">{% csrf_token %}
+                    <input class='order_id' type='hidden' name='order_id' value='{{ object.order_id }}' />
+                    <button id='stripe-checkout-btn' type='submit' style='border-radius: 0;' class='btn background-blue text-white btn-lg btn-block'><i class="fa fa-credit-card mr-2"></i>CHECKOUT WITH CARD</button>
+                    <!-- Hidden button to show when above is clicked -->
+                    <button id='stripe-checkout-btn-hidden' type='submit' style='border-radius: 0;' class='btn background-blue text-white btn-lg btn-block' hidden disabled>Processing <i class='fa fa-spin fa-spinner'></i></button>
+                    {% if not billing_profile.default_card %}
+                    Payment Method: Enter Credit Card or Checkout with Paypal
+                    {% else %}
+                    Payment Method: {{ billing_profile.default_card }}
+                    {% endif %}
+                    {% if has_card %}
+                        (<a href="{{ billing_profile.get_payment_method_url }}?next={{ request.build_absolute_uri }}">Change</a>)
+                    {% endif %}
+                </form>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <p>Cart Items: {% for item in object.cart.cartitem_set.all %}{{ item.product.title }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+<p>Shipping Address: {{ object.shipping_address_final }}</p>
+<p>Billing Address: {{ object.billing_address_final }}</p>
+ -->
+<!-- {% if not billing_profile.default_card %}
+Payment Method: Enter Credit Card or Checkout with Paypal
+{% else %}
+<p>Payment Method: {{ billing_profile.default_card }}
+{% endif %} -->
+
+<!-- <p>Cart Total: ${{ object.cart.total }}</p>
+<p>Tax Total: ${{ taxes }}</p>
+<p>Shipping Total: ${{ object.shipping_total }}</p>
+<p>Order Total: ${{ object.total }}</p> -->
+
+{% endif %} {% endif %} {% endif %} {% endblock %}

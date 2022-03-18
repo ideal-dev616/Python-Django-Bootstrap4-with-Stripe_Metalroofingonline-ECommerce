@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    h1, h2, h3, h4, h5, h6 {
+        display: inline;
+    }
+    .loader {
+        display: inline;
+        z-index: 1;
+        border: 16px solid #f3f3f3; /* Light grey */
+        border-top: 16px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src='{% static "js/admin-email.js" %}'></script>
+
+<h5> Customer Name: </h5>{{ order.name }}</br> 
+<hr/>
+<h5> Customer Phone: </h5>0{{ order.shipping_address.phone_number }}
+<hr/>
+<h5> Email: </h5>{{ order.shipping_address.billing_profile.email }}
+<hr/>
+<h5> Delivery Address: </h5>{{ order.shipping_address_final }}
+<hr/>
+<h5> Last Email sent to customer: </h5> <br/><p id='last_email'> {{ order.last_email|linebreaks }}</p>
+<hr/>
+{% if order.email_sent %}
+<h5 style='color:red'> This email has previously been sent </h5>
+<hr/>
+{% endif %}
+
+<input id='to_email' hidden value='{{to_email}}'>
+<input id='from_email' hidden value='{{from_email}}'>
+<input id='order_id' hidden value='{{order.order_id}}'>
+
+<div class="form-group">
+  <label for="subject">Subject:</label>
+  <input type="text" class="form-control" id="subject" value='{{ subject }}'>
+</div>
+<div class="form-group">
+  <label for="message">Message:</label>
+  <textarea class="form-control" rows="5" id="message">{{ message }}</textarea>
+</div>
+
+<div class='row'>
+    <div class='col'>
+        <a href='/admin/orders/order/'><button type="button" class="btn btn-outline-info btn-block">Back To Orders</button></a>
+    </div>
+
+    <div class='col'>
+        <button id="send-email" type="button" class="btn btn-outline-success btn-block">Send Email</button>
+    </div>
+</div>
+</br>
+{% endblock %}

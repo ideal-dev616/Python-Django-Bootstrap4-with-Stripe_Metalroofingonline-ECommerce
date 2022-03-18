@@ -1,0 +1,150 @@
+{% url 'home' as home_url %} 
+{% url 'contact' as contact_url %} 
+{% url 'products:list' as product_list_url %} 
+{% url 'products:roofing-iron' as product_roofing_iron %} 
+{% url 'products:colorbond' as product_colorbond %} 
+{% url 'products:zincalume' as product_zincalume %} 
+{% url 'products:rainwater-goods' as product_rainwater_goods %} 
+{% url 'products:flashings' as product_flashings %} 
+{% url 'products:polycarbonate' as product_polycarbonate %} 
+{% url 'products:insulation' as product_insulation %} 
+{% url 'products:accessories' as product_accessories %} 
+{% url 'login' as login_url %} 
+{% url 'logout' as logout_url %} 
+{% url 'register' as register_url %} 
+{% url 'search:query' as search_url %} 
+{% url 'account:home' as account_url %} 
+{% url 'cart:home' as cart_url %}
+<!-- ROOFING IRON --> 
+{% url 'products:roofing-iron' as product_roofing_iron %}
+<!-- RAINWATER GOODS -->
+{% url 'products:rainwater-goods' as product_rainwater_goods %} 
+{% url 'products:guttering' as product_guttering %}
+{% url 'products:quad' as product_quad %}
+{% url 'products:sheerline' as product_sheerline %}
+{% url 'products:trimline' as product_trimline %}
+{% url 'products:half_round' as product_half_round %} 
+
+{% url 'products:fascia' as product_fascia %} 
+{% url 'products:downpipes' as product_downpipes %}
+<!-- FLASHINGS -->
+{% url 'products:flashings' as product_flashings %} 
+{% url 'products:ridges' as product_ridges %} 
+{% url 'products:valleys' as product_valleys %} 
+{% url 'products:barge-cappings' as product_barge_cappings %} 
+{% url 'products:aprons' as product_aprons %} 
+{% url 'products:box-gutters' as product_box_gutters %} 
+{% url 'products:flat-sheet' as product_flat_sheet %} 
+{% url 'products:window-flashings' as product_window_flashings %}
+<!-- POLYCARBONATE -->
+{% url 'products:polycarbonate' as product_polycarbonate %}
+<!-- INSULATION -->
+{% url 'products:insulation' as product_insulation %}
+<!-- ACCESSORIES -->
+{% url 'products:accessories' as product_accessories %} 
+{% url 'products:roofing-fasteners' as product_roofing_fasteners %} 
+{% url 'products:gutter-guard' as product_gutter_guard %} 
+{% url 'products:foam-strips' as product_foam_strips %} 
+{% url 'products:roofing-tools' as product_roofing_tools %} 
+{% url 'products:downpipe-accessories' as product_downpipe_accessories %} 
+{% url 'products:fascia-accessories' as product_fascia_accessories %} 
+{% url 'products:adhesive-products' as product_adhesive_products %} 
+{% load static %} 
+{% load get_header_message from custom_tags %}
+
+<div class="container" >
+  <nav class="navbar notmobile navbar-expand-lg vertical-nav px-0">
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav side-nav">
+            <li>
+              <a class="nav-link" href="product_roofing_iron">ROOFING IRON</a>
+                <ul id="submenu-roofing-iron">
+                  <li><a class="nav-link" href="{{ product_colorbond }}">COLORBOND®</a></li>
+                  <li><a class="nav-link" href="{{ product_zincalume }}">ZINCALUME®</a></li>
+              </ul>
+            </li>
+            <li>
+              <a class="nav-link" href="product_guttering">GUTTERING</a>
+                <ul id="submenu-guttering">
+                  <li><a class="nav-link" href="{{ product_quad }}">QUAD GUTTER</a></li>
+                  <li><a class="nav-link" href="{{ product_sheerline }}">SHEERLINE GUTTER</a></li>
+                  <li><a class="nav-link" href="{{ product_trimline }}">TRIMLINE GUTTER</a></li>
+                  <li><a class="nav-link" href="{{ product_half_round }}">HALF ROUND GUTTER</a></li>
+              </ul>
+            </li>
+            <li>
+                <a class="nav-link" href="{{ product_fascia }}">FASCIA</a>
+            </li>
+            <li>
+                <a class="nav-link" href="{{ product_downpipes }}">DOWNPIPES</a>
+            </li>
+            <li>
+                <a class="nav-link" href="product_flashings">FLASHINGS</a>
+                <ul id="submenu-1">
+                    <li><a class="nav-link" href="{{ product_ridges }}">RIDGES</a></li>
+                    <li><a class="nav-link" href="{{ product_valleys }}">VALLEYS</a></li>
+                    <li><a class="nav-link" href="{{ product_barge_cappings }}">BARGE CAPPINGS</a></li>
+                    <li><a class="nav-link" href="{{ product_aprons }}">APRONS</a></li>
+                    <li><a class="nav-link" href="{{ product_box_gutters }}">BOX GUTTERS</a>  </li>
+                    <li><a class="nav-link" href="{{ product_flat_sheet }}">FLAT SHEET</a></li>
+                    <li><a class="nav-link" href="{{ product_window_flashings }}">WINDOW FLASHINGS</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="nav-link" href="{{ product_polycarbonate }}">POLYCARBONATE</a>
+            </li>
+            <li>
+                <a class="nav-link" href="{{ product_insulation }}">INSULATION</a> 
+            </li>
+            <li>
+                <a class="nav-link" href="{{ product_accessories }}">ACCESSORIES</a>
+                <ul id="submenu-2">
+                    <li><a class="nav-link" href="{{ product_roofing_fasteners }}">ROOFING FASTENERS</a></li>
+                    <li><a class="nav-link" href="{{ product_gutter_guard }}">GUTTER GUARD</a></li>
+                    <li><a class="nav-link" href="{{ product_foam_strips }}">FOAM STRIPS</a></li>
+                    <li><a class="nav-link" href="{{ product_roofing_tools }}">ROOFING TOOLS</a></li>
+                    <li><a class="nav-link" href="{{ product_downpipe_accessories }}">DOWNPIPE ACCESSORIES</a></li>
+                    <li><a class="nav-link" href="{{ product_fascia_accessories }}">FASCIA ACCESSORIES</a></li>
+                    <li><a class="nav-link" href="{{ product_adhesive_products }}">ADHESIVE PRODUCTS</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+  </nav>
+</div>
+<script>
+  function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+  }
+
+  function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+  }
+
+  function myFunction1() {
+    var x = document.getElementById("Dropdown1");
+    if (x.className.indexOf("w3-show") == -1) {
+      x.className += " w3-show";
+    } else {
+      x.className = x.className.replace(" w3-show", "");
+    }
+  }
+
+  function myFunction2() {
+    var x = document.getElementById("Dropdown2");
+    if (x.className.indexOf("w3-show") == -1) {
+      x.className += " w3-show";
+    } else {
+      x.className = x.className.replace(" w3-show", "");
+    }
+  }
+
+  function myFunction3() {
+    var x = document.getElementById("Dropdown3");
+    if (x.className.indexOf("w3-show") == -1) {
+      x.className += " w3-show";
+    } else {
+      x.className = x.className.replace(" w3-show", "");
+    }
+  }
+</script>

@@ -1,0 +1,11 @@
+<!-- change_form.html -->
+
+{% extends "admin/change_form.html" %}
+
+{% block submit_buttons_bottom %}
+{{ block.super }}
+
+<input id='select_all' type="button" value="Select all" name="_button1"></button>
+
+{% endblock %}
+

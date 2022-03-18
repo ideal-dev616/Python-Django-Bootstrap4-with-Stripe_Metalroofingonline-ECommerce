@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+
+<div class="container col-8 my-3 pb-3">
+
+	<div class="d-flex align-items-center p-3 text-white-50 bg-purple rounded box-shadow" style="background: #3f51b5">
+		<img class="mr-3" src="{% static 'img/logo.png' %}" alt="" width="48" height="48" style="border-radius: 5px;">
+		<div class="lh-100">
+		  <h4 class="mb-0 text-white lh-100">Account Home</h4>
+		  <small style='color: white'>Track a shipment or update your account info.</small>
+		</div>
+	</div>
+
+	<div class="my-3 p-3 bg-white rounded box-shadow">
+		<h4 class="border-bottom border-gray pb-2 mb-0">Account Details</h4>
+		<div class="media text-muted pt-3">
+		  <img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded">
+		  	<div class='list-group col-md-12 text-center'>
+				<a class='list-group-item' href='{% url "account:user-update" %}'>Update Details</a>
+		    	<a class='list-group-item' href='{% url "password_change" %}'>Change Password</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="my-3 p-3 bg-white rounded box-shadow">
+		<h4 class="border-bottom border-gray pb-2 mb-0">Billing</h4>
+		<div class="media text-muted pt-3">
+		  <img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded">
+		  	<div class='list-group col-md-12 text-center'>
+				<a class='list-group-item' href='{% url "orders:list" %}'>Orders</a>
+		    	<a class='list-group-item' href='{% url "billing-payment-method" %}'>Payment Methods</a>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="my-3 p-3 bg-white rounded box-shadow">
+		<h4 class="border-bottom border-gray pb-2 mb-0">History</h4>
+		<div class="media text-muted pt-3">
+		  <img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded">
+		  	<div class='list-group col-md-12 text-center'>
+				<a class='list-group-item' href='{% url "account:user-product-history" %}'>Products Viewed</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="my-3 p-3 bg-white rounded box-shadow mb-5">
+		<h4 class="border-bottom border-gray pb-2 mb-0">Preferences</h4>
+		<div class="media text-muted pt-3">
+		  <img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded">
+		  	<div class='list-group col-md-12 text-center'>
+				<a class='list-group-item' href='{% url "marketing-pref" %}'>Email Marketing</a>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

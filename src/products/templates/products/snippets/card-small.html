@@ -1,0 +1,28 @@
+<div class="card borderless" style="width: 13rem;">
+    <a href="{{ instance.get_absolute_url }}">
+            <img class="card-img-top" src="{{ instance.imageoption_set.first.option.image.url }}" alt="{{ instance.title }} logo">
+        </a>
+    <a class='text-blue text-left' href="{{ instance.get_absolute_url }}">
+    <div class="card-body text-blue" style='padding: 0px'>
+          {% if A_C_T %}
+            {{ instance.nsw_title|truncatechars:"30" }}
+          {% elif NEW_SOUTH_WALES %}
+            {{ instance.nsw_title|truncatechars:"30" }}
+          {% elif NORTHERN_TERRITORY %}
+            {{ instance.vic_title|truncatechars:"30" }}
+          {% elif QUEENSLAND %}
+            {{ instance.qld_title|truncatechars:"30" }}
+          {% elif SOUTH_AUSTRALIA %}
+            {{ instance.vic_title|truncatechars:"30" }}
+          {% elif TASMANIA %}
+            {{ instance.wa_title|truncatechars:"30" }}
+          {% elif VICTORIA %}
+            {{ instance.vic_title|truncatechars:"30" }}
+          {% elif WESTERN_AUSTRALIA %}
+            {{ instance.vic_title|truncatechars:"30" }}
+          {% else %}
+            <p class='text-orange mt-2'>{{ instance.title }}</p>
+          {% endif %}
+    </div>
+    </a>
+</div>

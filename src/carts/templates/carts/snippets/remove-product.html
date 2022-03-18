@@ -1,0 +1,10 @@
+<form class='form-product-ajax' method='POST' action='{% url "cart:remove" %}' data-endpoint='{% url "cart:remove" %}' class="form"> {% csrf_token %}
+    <input name='remove-item' value="True" type='hidden'/>
+    <input class='cart-item-product-id' type='hidden' name='product_id' value='{{ item.id }}' />
+    <input class='cart-item-quantity' type='hidden' name='quantity' value='{{ item.quantity }}' />
+    <input class='cart-item-colour' type='hidden' name='colour' value='{{ item.colour }}' />
+    <input class='cart-item-length' type='hidden' name='length' value='{{ item.length }}' />
+    <input class='cart-item-additionaldropdown' type='hidden' name='additional' value='{{ item.additional_drop_down.title }}'/>
+    <button type='submit' class='btn btn-link btn-sm text-blue' style="padding:0px;cursor: pointer;">REMOVE <i class="fas fa-times"></i></button>
+    </span>
+</form>

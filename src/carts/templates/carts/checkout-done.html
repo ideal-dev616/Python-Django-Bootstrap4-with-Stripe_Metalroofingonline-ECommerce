@@ -1,0 +1,161 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+</div>
+{% if object %}
+<script>
+ga('require', 'ecommerce');
+ga('ecommerce:addTransaction', {
+    'id': '{{ object.order_id }}', // Transaction ID. Required.
+    'affiliation': 'Metal Roofing Online', // Affiliation or store name.
+    'revenue': '{{ object.total }}', // Grand Total.
+    'shipping': '{{ object.shipping_total }}', // Shipping.
+    'tax': '{{ object.tax }}', // Tax.
+    'currency': 'AUD'
+});
+
+{% for item in object.orderitem_set.all %}
+ga('ecommerce:addItem', {
+    'id': '{{ object.order_id }}', // Transaction ID. Required.
+    'name': '{{ item.product.title }}', // Product name. Required.
+    'sku': '{{ item.pk }}', // SKU/code.
+    'category': '{{ item.product.categoryoption_set.first.option }}', // Category or variation.
+    'price': '{{ item.price }}', // Unit price.
+    'quantity': '{{ item.quantity }}' // Quantity.
+}); 
+{% endfor %}
+ga('ecommerce:send');
+</script>
+<div class="container my-3">
+    <div class='col-md-12 col-sm-12 col-xs-12'>
+        <div class="row">
+            <div class='col-md-6 col-sm-12 col-xs-12'>
+                <h5>
+                    Thank You {{ object.billing_address.first_name }} !
+                    <br />
+                    Order Confirmed: #{{ object.order_id }}
+                </h5>
+                <br />
+                <h5> Shipping address</h5>
+                <div class="rcorners">
+                    <div class="resp-container">
+                        <iframe class="resp-iframe" src="https://www.google.com/maps/embed/v1/place?key={{ api_key }}
+            &q={{object.shipping_address.address_line_1}},{{object.shipping_address.city }}+{{object.shipping_address.state }}" allowfullscreen></iframe>
+                    </div>
+                    <br />
+                    <center>
+                        <p>Thank you for your order from Metal Roofing Online. Once your order is ready we will send you a notification email.
+                            Your order details are::<br />Order Number: #{{object.order_id}}, placed on {{ object.timestamp }}
+                    </center>
+                </div>
+                <br /><br />
+                <div class='rcorners'>
+                    <center>
+                        <strong>Customer information</strong>
+                    </center><br />
+                    <div class="row">
+                        <div class='col-md-6 col-sm-6'>
+                            <div style="margin-left:10px">
+                                <strong>BILLED TO:</strong>
+                                <br /> {{ object.billing_address.first_name }} {{object.billing_address.last_name }}
+                                <br /> {{object.billing_address.address_line_1}}
+                                <br /> {{object.billing_address.state }}, {{object.billing_address.city }}, {{object.billing_address.postal_code }}
+                                <br /> {{ object.billing_address.country }}
+                                <br /><b> Customer email: </b>{{ object.billing_address.billing_profile.email }}
+                            </div>
+                            <br />
+                        </div>
+                        <div class='col-md-6 col-sm-6'>
+                            <div style="margin-left:10px">
+                                <strong>SHIPPING TO:</strong>
+                                <br /> {{ object.shipping_address.first_name }} {{object.shipping_address.last_name }}
+                                <br /> {{object.shipping_address.address_line_1}}
+                                <br /> {{object.shipping_address.state }}, {{object.shipping_address.city }}, {{object.shipping_address.postal_code }}
+                                <br /> {{ object.shipping_address.country }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='col-md-6 col-sm-12 col-xs-12'>
+                <div class='row-12 mt-3 mb-3'>
+                    <center>
+                        <strong>Your Order</strong>
+                    </center>
+                    <br />
+                    <table class="table borderless">
+                        <!--<thead class="thead-light">
+            <tr>
+              <th scope="col">ITEM</th>
+              <th scope="col">QTY</th>
+              <th scope="col">PRICE</th>
+            </tr>
+          </thead>-->
+                        <tbody>
+                            {% for item in object.orderitem_set.all %}
+                            <tr>
+                                <td>
+                                    <span class="bell">
+                                        <img src="{{ item.product.imageoption_set.first.option.image.url }}" alt="{{ item.imageoption_set.first.option.alt}}" height=50 width=50>
+                                        <span class="bellnumbers">{{ item.quantity }}</span>
+                                    </span>
+                                <td>
+                                    {{ item.product.title }}{% if item.colour %}
+                                    <br /> COLOUR: {{ item.colour }}
+                                    {% endif %}
+                                    {% if item.length %}
+                                    <br /> LENGTH: {{ item.length }}
+                                    {% endif %}
+                                    {% if item.additional %}
+                                    <br /> COLOUR: {{ item.additional }}
+                                    {% endif %}
+                                </td>
+                                <td>${{ item.line_price }}</td>
+                            </tr>
+                            {% endfor %}
+                            <tr>
+                                <td></td>
+                                <td>Shipping: </td>
+                                <td>${{ object.shipping_total }}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>Tax: </td>
+                                <td>${{ object.taxes }}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <strong>TOTAL:</strong>
+                                </td>
+                                <td>
+                                    <strong>${{ object.total }}</strong>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class='col-md-12 col-sm-12 col-xs-12'>
+                <div class='row'>
+                    <div class='col'>
+                        <p>
+                            <center>
+                                Metal Roofing Online • 43 Watt Road, Mornington, VIC, 3931, Australia
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class='container'>
+    <div class='row'>
+        <div class='col'>
+            <h1>Sorry, your order was not found.</h1>
+            <hr>
+            <h2>If you refreshed this page, you will see this error. Please check your email for order confirmation.</h2>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

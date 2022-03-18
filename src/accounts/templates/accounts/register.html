@@ -1,0 +1,21 @@
+{% extends "base.html" %} {% block content %} {% load static %}
+<div class='container text-center my-4'>
+    <div class='col-lg-4 col-md-8 cold-sm-12 col-centered pb-5'>
+        <form class='login' method='POST'> {% csrf_token %}
+            <h1 class="h3 mb-3 font-weight-normal">Registration Form</h1>
+            <hr/> {% for i in form %}
+            <p> {{i}} </p>
+            {% endfor %} {% autoescape off %} 
+            {{ form.non_field_errors.as_text|cut:"* " }}
+            {{ form.email.errors.as_text|cut:"* " }}
+            {{ form.password.errors.as_text|cut:"* " }}
+            {{ form.password2.errors.as_text|cut:"* " }}
+            {% endautoescape %}
+            <!-- <hr/>
+            Check Email For Activation After Registering
+            <hr/> -->
+            <button class="btn btn-lg btn-outline-primary btn-block mt-5" type="submit">Register</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

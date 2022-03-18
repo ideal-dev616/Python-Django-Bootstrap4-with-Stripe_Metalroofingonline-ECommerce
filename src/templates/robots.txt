@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /accounts/
+Disallow: /addresses/
+Disallow: /cart/
+
+Host: https://metalroofingonline.com.au
+Sitemap: https://metalroofingonline.com.au/sitemap.xml

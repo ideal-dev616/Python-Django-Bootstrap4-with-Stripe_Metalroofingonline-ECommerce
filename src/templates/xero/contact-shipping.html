@@ -1,0 +1,201 @@
+{% load static %}
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script
+  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+  crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+<!-- Smooth Products -->
+<script type="text/javascript" src="{% static 'js/smoothproducts.min.js' %}"></script>
+
+<!-- Slick js -->
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+<!-- Stripe JS -->
+<script src="https://js.stripe.com/v3/"></script>
+
+<!-- Jquery Confirm -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+
+<!-- Django Secure AJAX JS (CSRF TOKEN) -->
+<script type="text/javascript" src='{% static "js/csrf.ajax.js" %}'></script>
+
+<!-- Font awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+<!-- Font Awesome CSS -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+<!-- Jquery Confirm CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+
+<!-- Slick SLider -->
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+<div class='container mt-4'>
+  <div class='row'>
+    <div class='col-6'>
+      <h1 class='text-center pb-2'>Xero invoice for cart {{ cart.pk }}</h1>
+      <form>
+        <h3>Personal Information</h3>
+        <input type='cart' id='cart-pk' value='{{ cart.pk }}' hidden>
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="name" class="form-control" id="name" placeholder="Enter Name">
+        </div>
+        <div class="form-group">
+          <label for="phone-number">Phone Number</label>
+          <input class="form-control" id="phone-number" placeholder="Phone Number">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input class="form-control" id="email" placeholder="Enter Email">
+        </div>
+      </form>
+
+      <form>
+        <h3>Shipping Information</h3>
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="pickup">
+          <label class="form-check-label" for="pickup">Pickup</label>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="postage-standard">
+          <label class="form-check-label" for="postage-standard">Postage - Standard</label>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="postage-express">
+          <label class="form-check-label" for="postage-express">Postage - Express</label>
+        </div>
+        <div class="form-group">
+          <label for="address">Address</label>
+          <input class="form-control" id="address" placeholder="Enter Address">
+        </div>
+        <div class="form-group">
+          <label for="suburb">Suburb</label>
+          <input class="form-control" id="suburb" placeholder="Enter Address">
+        </div>
+        <div class="form-group">
+          <label for="post-code">Post Code</label>
+          <input class="form-control" id="post-code" placeholder="Post Code">
+        </div>
+        <div class="form-group">
+          <label for="state">State</label>
+          <select class="form-control" id="state">
+            <option>VIC</option>
+            <option>ACT</option>
+            <option>NT</option>
+            <option>NSW</option>
+            <option>QLD</option>
+            <option>SA</option>
+            <option>TAS</option>
+            <option>WA</option>
+          </select>
+        </div>
+      </form>
+
+      <form>
+        <h3>Billing Information</h3>
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="billing-same">
+          <label class="form-check-label" for="billing-same">Billing same as shipping</label>
+        </div>
+        <div class="form-group">
+          <label for="billing-address">Address</label>
+          <input class="form-control" id="billing-address" placeholder="Enter Address">
+        </div>
+        <div class="form-group">
+          <label for="billing-suburb">Suburb</label>
+          <input class="form-control" id="billing-suburb" placeholder="Enter Address">
+        </div>
+        <div class="form-group">
+          <label for="billing-post-code">Post Code</label>
+          <input class="form-control" id="billing-post-code" placeholder="Post Code">
+        </div>
+        <div class="form-group">
+          <label for="billing-state">State</label>
+          <select class="form-control" id="billing-state">
+            <option>VIC</option>
+            <option>ACT</option>
+            <option>NT</option>
+            <option>NSW</option>
+            <option>QLD</option>
+            <option>SA</option>
+            <option>TAS</option>
+            <option>WA</option>
+          </select>
+        </div>
+      </form>
+      <form>
+        <button type="submit" class="btn btn-primary" id='create-button'>Create Invoice</button>
+      </form>
+    </div>
+
+      <div class='col-5' style='border-left: 1px solid lightgrey'>
+        <h1 class='text-center pb-3'>Products in cart</h1>
+        <table class="table borderless">
+          <thead class="thead">
+            <tr>
+              <th scope="col">IMG</th>
+              <th scope="col">QTY</th>
+              <th scope="col">ITEM</th>
+              <th scope="col">PRICE</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in cart.cartitem_set.all %}
+            <tr>
+              <td>
+                <span class="bell">
+                        <img  src="{{ item.product.imageoption_set.first.option.image.url }}" alt="{{ item.imageoption_set.first.option.alt}}" height=50 width=50>
+                </span>
+              </td>
+              <td>
+                {{ item.quantity }}
+              </td>
+              <td>
+                {{ item.product.title }}{% if item.colour %}
+                <br/> COLOUR: {{ item.colour }}
+                        {% endif %}
+                        {% if item.length %}
+
+                <br/> LENGTH: {{ item.length }}
+                        {% endif %}
+                        {% if item.additional %}
+
+                <br/> COLOUR: {{ item.additional }}
+                        {% endif %}
+
+                </td>
+              <td>${{ item.line_price }}</td>
+            </tr>
+                  {% endfor %}
+
+            <tr>
+              <td colspan='2'></td>
+              <td>
+                <strong>TOTAL:</strong>
+              </td>
+              <td>
+                <strong>${{ cart.total }}</strong>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      </div>
+      </div>
+  </div>
+</div>
+
+
+<!-- JS For Ajax call -->
+<script type="text/javascript" src='{% static "js/admin/cart_invoice_create.js" %}'></script>

@@ -1,0 +1,249 @@
+<html>
+<style>
+
+h1 {
+    padding-bottom: 50px;
+    display: inline;
+}
+
+h3 {
+    display: inline;
+}
+
+table {
+    border: 0px solid black;
+    border-collapse:collapse;
+    border-spacing:0 5px;
+}
+
+td {
+    text-align: center;
+    margin-bottom: 100px;
+}
+
+ul {
+    margin: 0; /* To remove default bottom margin */ 
+    padding-left: 0; /* To remove default left padding */
+    padding-top: 5px;
+    list-style-type: none;
+    border-bottom: 1px solid black;
+}
+
+div.header {
+    margin-bottom: 15px;
+}
+
+div.customer-section {
+    margin-bottom: 15px;
+}
+
+table.borderless {
+    border: none;
+}
+
+table.customer {
+    padding: 10px;
+}
+
+td.left-align {
+    text-align: left;
+}
+
+th.blue {
+	background-color: #23397a;
+	color: white;
+	padding-top: 3px;
+}
+
+.blue-text {
+	color: #23397a;
+}
+
+td.padding {
+	padding-top: 3px;
+}
+
+th.right-align {
+	text-align: right;
+	padding-right: 10px;
+}
+
+h1.inline {
+    display: inline;
+}
+
+td.text-align-right {
+	text-align: right;
+	padding-right: 5px;
+	padding-top: 3px;
+}
+
+div.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: red;
+   color: white;
+   text-align: center;
+}
+
+@page {
+	size: a4 portrait;
+    @frame header_frame {           /* Static Frame */
+        -pdf-frame-content: header_content;
+        left: 25pt; right:25pt; width: 552pt; top: 20pt; height: 100pt;
+    }
+    @frame content_frame {          /* Content Frame */
+        left: 50pt; width: 512pt; top: 90pt; height: 632pt;
+    }
+    @frame footer_frame {           /* Another static Frame */
+        -pdf-frame-content: footer_content;
+        left: 50pt; width: 512pt; top: 772pt; height: 100pt;
+    }
+}
+</style>
+
+{% load static %}
+<body>
+<!-- Content for Static Frame 'header_frame' -->
+<div id="header_content">
+	<table class="borderless">
+	  <tr>
+	    <th> 
+	        <img src="{% static 'img/banner-reduced.jpg' %}" alt="" width='300'>
+	    </th>
+	    <th class='right-align'>
+	    	<h1 class='blue-text'> INVOICE </h1> <br/>
+	    	<h3> {% now "jS F Y" %} </h3> <br/>
+	    	<h3> #{{ order.order_id }} </h3>
+	    </th>
+	  </tr>
+	</table>
+</div>
+
+<!-- Content for Static Frame 'footer_frame' -->
+<div id="footer_content">
+	<p style='text-align: center'>
+		Tel: 1300 886 944 <br/>
+		ABN: 87 123 411 605 <br/>
+		Metal Roofing Online is committed 100% to customer satisfaction. If any claims arise, this must be
+		within 7 days of delivery of goods by sending an email to sales@metalroofingonline.com.au or via phone.
+		Any claims requests which are not lodged within the time frame specified will not be accepted.
+		<br/>Page <pdf:pagenumber> of <pdf:pagecount>
+	</p>
+</div>
+
+<!-- HTML Content -->
+<br/>
+<table class="borderless">
+	<tr>
+		<td class="left-align">
+			<h1>
+				Delivery Address </br>
+			</h1>
+			{{ order.shipping_address.first_name }} {{order.shipping_address.last_name }} </br>
+			{{ order.shipping_address.address_line_1 }} </br>
+			{% if order.shipping_address.address_line_2 %}
+				{{ order.shipping_address.address_line_2 }} </br>
+			{% endif %}
+			{{ order.shipping_address.city }}, {{ order.shipping_address.postal_code }} </br>
+			{{ order.shipping_address.state }}, Australia <br/>
+		</td>
+		<td class="left-align">
+			<h1>
+				Billing Address </br>
+			</h1> 
+			{{ order.shipping_address.first_name }} {{order.shipping_address.last_name }} </br>
+			{{ order.billing_address.address_line_1 }} </br>
+			{% if order.billing_address.address_line_2 %}
+				{{ order.billing_address.address_line_2 }} </br>
+			{% endif %}
+			{{ order.billing_address.city }}, {{ order.shipping_address.postal_code }} </br>
+			{{ order.billing_address.state }}, Australia <br/>
+		</td>
+	</tr>
+</table>
+
+<br/>
+
+<table>
+	<tr>
+		<td class='left-align'>
+			Order Number: <br/> {{ order.order_id }}
+			<!-- Invoice Status: <strong>{{ order.status|title }}</strong> -->
+		</td>
+		<td class='left-align'>Order Date: <br/> {{ order.timestamp }}</td>
+		<td>
+		</td>
+	</tr>
+</table>
+
+<br/>
+<table>
+  <thead>
+    <tr>
+      <th class='blue' scope="col" width="5%">#</th>
+      <th class='blue' scope="col" width="50%">Product</th>
+      <th class='blue' scope="col" width="25%">Colour</th>
+      <th class='blue' scope="col" width="10%">Length</th>
+      <th class='blue' scope="col" width="10%">Qty</th>
+      <th class='blue' scope="col" width="20%">Total (Tax Incl.)</th>
+    </tr>
+  </thead>
+  <tbody>
+  	{% for item in order.orderitem_set.all %}
+        {% if item.destination == 'Site' or item.destination == 'Store' %}
+	  	<tr>
+	  		<td scope="col" class="padding" width="5%">{{ forloop.counter }}</td>
+	  		<td scope="col" class="padding">
+			{% if shippingState == 'NSW' or shippingState == 'ACT' %}
+			  {% if item.product.nsw_supplier_title %}
+			  {{ item.product.nsw_supplier_title }}</td>
+			  {% else %}
+			  {{ item.product.title }}</td>
+			  {% endif %}
+			{% elif shippingState == 'QLD' %}
+				{% if item.product.qld_supplier_title %}
+			  	{{ item.product.qld_supplier_title }}</td>
+			  	{% else %}
+			  	{{ item.product.title }}</td>
+			  	{% endif %}
+			{% elif shippingState == 'WA' %}
+				{% if item.product.wa_supplier_title %}
+			  	{{ item.product.wa_supplier_title }}</td>
+			  	{% else %}
+			  	{{ item.product.title }}</td>
+			  	{% endif %}
+			{% else %}
+				{% if item.product.vic_supplier_title %}
+					{{ item.product.vic_supplier_title }}</td>
+				{% else %}
+					{{ item.product.title }}</td>
+				{% endif %}
+			{% endif %}
+	  		<td scope="col" class="padding">{{ item.colour }}</td>
+	  		{% if item.length|stringformat:"s" == "0.00" %}
+	  			<td scope="col" class="padding">N/A</td>
+	  		{% else %}
+	  			<td scope="col" class="padding">{{ item.length }}</td>
+	  		{% endif %}
+	  		<td scope="col" class="padding">{{ item.quantity }}</td>
+	  		<td scope="col" class="padding">${{ item.line_price }}</td>
+	  	</tr>
+        {% endif %}
+	{% endfor %}
+	<tr>
+		<td class='text-align-right' colspan='5'>GST: </td>
+		<td class='padding'>${{ gst }}</td>
+	</tr>
+
+	<tr>
+		<td class='text-align-right' colspan='5'>Total: </td>
+		<td class='padding'>${{ order.supplier_total }}</td>
+	</tr>
+  </tbody>
+</table>
+
+</body>
+</html>

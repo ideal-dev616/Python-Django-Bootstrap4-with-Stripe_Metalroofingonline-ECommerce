@@ -1,0 +1,60 @@
+<div class="cd-cart-container {% if request.session.cart_items > 0 %}{% else %}empty{% endif %}">
+    <a href="#0" class="cd-cart-trigger">
+        <ul class="count"><!-- cart items count -->
+            <li>{{ request.session.cart_items }}</li>
+            <li>0</li>
+        </ul> <!-- .count -->
+    </a>
+
+    <div class="cd-cart">
+        <div class="wrapper">
+            <header>
+                <h2>Cart<span style='color: grey; font-size:75%;'>{{ cart.pk }}</span></h2>
+                <span class="undo">Item removed. <a href="#0">Undo</a></span>
+            </header>
+
+            {% if request.session.cart_items > 0 %}
+            <div class="cart-overlay-body">
+                <ul>
+                    {% for item in cart.cartitem_set.all %}
+                    <li class="product" id='{{ item.pk }}'>
+                        <div class="product-image">
+                            <a href="{{ item.product.get_absolute_url }}">
+                                <img src="{{ item.product.imageoption_set.first.option.image.url }}" alt="{{ instance.title }}">
+                            </a>
+                        </div>
+                        <div class="product-details">
+                            <h3>
+                                <a href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a>
+                            </h3>
+                            <span class="price text-60-percent">${{ item.line_price }}</span>
+                            <div class="actions">
+                                <a href="#0" class="delete-item text-60-percent">Delete</a>
+                                <div class="quantity text-60-percent cart-gap">
+                                    <label for="cd-product-{{ item.pk }}">Qty</label>{{ item.quantity }}
+                                </div>
+                                {% if item.length %}
+                                    <div class="length text-60-percent">
+                                        <label>Length:</label> {{ item.length.length }}m
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% else %}
+            <div class="cart-overlay-body">
+                <ul>
+                 <!-- Empty Cart -->
+                </ul>
+            </div>
+            {% endif %}
+
+            <footer>
+                <a href="/cart/" class="checkout cd-btn"><em>To Cart - $<span id='cart-overlay-total'>{{ cart.total }}</span></em></a>
+            </footer>
+        </div>
+    </div> <!-- .cd-cart -->
+</div> <!-- cd-cart-container -->

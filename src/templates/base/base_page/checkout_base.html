@@ -1,0 +1,116 @@
+{% load static %}
+{% url 'products:list' as product_list_url %}
+{% load get_cart from custom_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script>
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga('create', 'UA-36857841-2', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
+    <!-- <script src="{% static 'js/toast.min.js' %}"></script> -->
+    
+    
+
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-36857841-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-36857841-2');
+    </script> -->
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <link rel="canonical" href="https://www.metalroofingonline.com.au{{ request.path }}"/>
+    <link rel="icon" type="image/png" href="{% static 'img/favicon.ico' %}">
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/toast.min.css' %} ">
+
+    {% if object.meta_title %}
+        <title>{{ object.meta_title }}</title>
+    {% elif meta_title %}
+        <title>{{ meta_title }}</title>
+    {% else %}
+        <title>COLORBOND Roofing Materials, Corrugated Iron</title>
+    {% endif %}
+
+    {% if object.meta_description %}
+        <meta name="description" content="{{ object.meta_description }}">
+    {% elif meta_description %}
+        <meta name="description" content="{{ meta_description }}">
+    {% else %}
+        <meta name="description" content="SHOP Australia's premier metal COLORBOND® roofing online store at Lowest prices with FAST delivery. Corrugated Iron and much more.">
+    {% endif %}
+
+    {% include 'base/css.html' %} {% include 'base/css/checkout-css.html' %} {% block base_head %} {% endblock %}
+    
+</head>
+
+<body>
+    <form class='form' method="post"> {% csrf_token %}
+        <input type='hidden' name='state_selected' id='state_selected' value='default'/>
+    </form>
+    {% include 'base/navbar_checkout.html' with brand_name='eCommerce' %}
+
+    <!-- STATE SELECTION POPUP -->
+    <div class='remodal' data-remodal-id="modal">
+        <button data-remodal-action="close" class="remodal-close"></button>
+        <h4>Where are you shopping for today?</h4>
+        <p>Delivery State:</p>
+        <div class='text-center justify-content-center'>
+            <select class='mb-3' id='state_popup'>
+                <option id='ACT_popup' value='ACT'>A.C.T</option>
+                <option id='NSW_popup' value='NSW'>NEW SOUTH WALES</option>
+                <option id='NT_popup' value='NT'>NORTHERN TERRITORY</option>
+                <option id='QLD_popup' value='QLD'>QUEENSLAND</option>
+                <option id='SA_popup' value='SA'>SOUTH AUSTRALIA</option>
+                <option id='TAS_popup' value='TAS'>TASMANIA</option>
+                <option id='VIC_popup' value='VIC'>VICTORIA</option>
+                <option id='WA_popup' value='WA'>WESTERN AUSTRALIA</option>
+            </select>
+        </div>
+        Please note: item availability may change.
+    </div>
+
+    <div class='container-fluid no-padding'>
+        {% if messages %}
+        {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                <div class="alert alert-danger messages mt-3">
+                    <span{% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                        <strong>ERROR: </strong>{{ message }}
+                        <br/>
+                        </span>
+                </div>
+            {% else %}
+                <div class="alert alert-success messages">
+                    <span{% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                        {{ message }}
+                        <br/>
+                        </span>
+                </div>
+            {% endif %}
+        {% endfor %}
+        {% endif %} {% block content %}{% endblock %}
+    </div>
+</body>
+{% include 'base/footer.html' %}
+{% include 'base/js/checkout-js.html' %} {% block javascript %} {% endblock %}
+</html>

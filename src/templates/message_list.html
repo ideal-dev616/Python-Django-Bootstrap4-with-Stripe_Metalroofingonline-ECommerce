@@ -1,0 +1,15 @@
+{% for message in message_list %}
+<div class="alert 
+{% if message.colour == 'Blue' %} alert-primary {% endif %} 
+{% if message.colour == 'Grey' %} alert-secondary {% endif %}
+{% if message.colour == 'Green' %} alert-success {% endif %}
+{% if message.colour == 'Red' %} alert-danger {% endif %}
+{% if message.colour == 'Yellow' %} alert-warning {% endif %}
+{% if message.colour == 'Teal' %} alert-info {% endif %}
+{% if message.colour == 'Light Grey' %} alert-light {% endif %}
+{% if message.colour == 'Dark Grey' %} alert-dark {% endif %}
+text-center" style='border-radius: 0px;'>
+
+  {{message.message|safe}}
+</div>
+{% endfor %}

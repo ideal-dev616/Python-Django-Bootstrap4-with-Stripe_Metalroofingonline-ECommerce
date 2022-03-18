@@ -1,0 +1,107 @@
+{% load static %} {% load custom_tags %}
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script
+  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+  crossorigin="anonymous"
+></script> -->
+
+<!-- Bootstrap carousel js -->
+<!-- <script
+  src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+  integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+  integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+  crossorigin="anonymous"
+></script> -->
+<!-- Smooth Products -->
+<script type="text/javascript" src="{% static 'js/smoothproducts.min.js' %}"></script>
+<!-- Slick js -->
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+<!-- Stripe JS -->
+<script src="https://js.stripe.com/v3/"></script>
+
+<!-- Jquery Confirm -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+
+<!-- Js Render -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/0.9.90/jsrender.min.js"></script>
+{% include 'base/js_templates.html' %}
+
+<!-- Chart.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+
+<!-- Django Secure AJAX JS (CSRF TOKEN) -->
+<script type="text/javascript" src='{% static "js/csrf.ajax.js" %}'></script>
+
+<!-- CSRF TOKEN for javascript -->
+<script>
+  var CSRF_TOKEN = "{{ csrf_token }}";
+</script>
+
+<!-- eCommerce Sales Data JS -->
+<script
+  type="text/javascript"
+  src='{% static "js/ecommerce.sales.js" %}?__v__=1234-7258-11e7-95a7-0242ac130005'
+></script>
+
+<!-- eCommerce Custom JS -->
+<script
+  type="text/javascript"
+  src='{% static "js/ecommerce.js" %}?__v__=1234-7258-11e7-95a7-0242ac130005'
+></script>
+
+<!-- eCmmerce Main JS -->
+<script
+  type="text/javascript"
+  src='{% static "js/ecommerce.main.js" %}?__v__=1234-7258-11e7-95a7-0242ac130005'
+></script>
+
+<!-- Font awesome -->
+<link
+  rel="stylesheet"
+  href="https://use.fontawesome.com/releases/v5.4.2/css/all.css"
+  integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns"
+  crossorigin="anonymous"
+/>
+
+<!-- Remodel -->
+<script type="text/javascript" src="{% static 'js/remodal.js' %}"></script>
+<!-- Add smoothproducts to images -->
+<script type="text/javascript">
+  /* wait for images to load */
+  $(window).on("load", function () {
+    $(".sp-wrap").smoothproducts();
+  });
+</script>
+<!-- Tiny-slider used for featured products -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.1/min/tiny-slider.js"></script>
+<!-- <script type="text/javascript">
+  var slider = tns({
+    container: ".my-slider",
+    items: 1,
+    controls: false,
+    autoplay: true,
+    nav: false,
+    autoplayButtonOutput: false,
+    responsive: {
+      640: {
+        edgePadding: 20,
+        gutter: 20,
+        items: 2,
+      },
+      700: {
+        gutter: 30,
+      },
+      900: {
+        items: 4,
+      },
+    },
+  });
+</script> -->

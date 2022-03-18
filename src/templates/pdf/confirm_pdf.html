@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    h1, h2, h4 {
+        display: inline;
+    }
+</style>
+
+{% if order_paid %}
+<div class="container">
+    <h4> Customer Name: </h4> <h4>{{ order.name }}</h4> </br> 
+    <h4> Customer Phone: </h4> <h4> {{ order.shipping_address.phone_number }} </h4> </br>
+    <h4> Email: </h4> <h4> {{ order.billing_profile.email }} </h4> </br>
+    <h4> Delivery Address: </h4> <h4> {{ order.shipping_address_final }} </h4>
+
+    <table class="table table-striped table-bordered" style="margin-top: 20px">
+        {% for key, dicts in lists.items %}
+        <thead>
+            <tr>
+                <th width='25%'>{{ key }}</th>
+                <th width='25%'>Colour</th> 
+                <th width='25%'>Qty</th>
+                <th width='25%'>Length</th>
+            </tr>
+        </thead>
+        <tr>
+        {% with value=dicts|first %}
+            <td>
+                <img src="{{ value.product.imageoption_set.first.option.image.url }}" alt="{{ value.product.title }} logo" width="150" height="150">
+            </td>
+        {% endwith %}
+        <td>
+            {% for value in dicts %}
+                {{ value.colour }} </br>
+            {% endfor %}
+        </td>
+        <td>
+            {% for value in dicts %}
+                {{ value.quantity }}</br>
+            {% endfor %}
+        </td>
+        <td>
+            {% for value in dicts %}
+                {{ value.length }}</br>
+            {% endfor %}
+        </td>
+        {% endfor %}
+    </table>
+
+    <div class='row'>
+        <div class='col'>
+            <a href='/admin/orders/order/{{ order_id }}/change/#/tab/inline_0/'><button type="button" class="btn btn-outline-info btn-block">Back To Order</button></a>
+        </div>
+
+        {% if type == 'flashing' %}
+        <div class='col'>
+            <a href='/admin/orders/order/{{ order_id }}/print-flashing/' target="_blank"><button type="button" class="btn btn-outline-success btn-block">Confirm</button></a>
+        </div>
+        {% elif type == 'supplier' %}
+        <div class='col'>
+            <a href='/admin/orders/order/{{ order_id }}/print-supplier/' target="_blank"><button type="button" class="btn btn-outline-success btn-block">Confirm</button></a>
+        </div>
+        {% elif type == 'packing' %}
+        <div class='col'>
+            <a href='/admin/orders/order/{{ order_id }}/print-packing/' target="_blank"><button type="button" class="btn btn-outline-success btn-block">Confirm</button></a>
+        </div>
+        {% endif %}
+    </div>
+    </br>
+</div>
+{% else %}
+ORDER HAS NOT BEEN PAID FOR
+{% endif %}
+{% endblock %}

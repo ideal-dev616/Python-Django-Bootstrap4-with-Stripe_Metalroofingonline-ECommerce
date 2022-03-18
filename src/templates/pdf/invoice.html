@@ -1,0 +1,273 @@
+<html>
+<style>
+
+body { 
+    font-size: 120%; 
+}
+
+h1 {
+    padding-bottom: 50px;
+    display: inline;
+}
+
+h3 {
+    display: inline;
+}
+
+table {
+    border: 0px solid black;
+    border-collapse:collapse;
+    border-spacing:0 5px;
+}
+
+td {
+    text-align: center;
+    margin-bottom: 100px;
+    padding-top: 5px;
+    vertical-align: middle;
+}
+
+ul {
+    margin: 0; /* To remove default bottom margin */ 
+    padding-left: 0; /* To remove default left padding */
+    padding-top: 5px;
+    list-style-type: none;
+    border-bottom: 1px solid black;
+}
+
+div.header {
+    margin-bottom: 15px;
+}
+
+div.customer-section {
+    margin-bottom: 15px;
+}
+
+table.borderless {
+    border: none;
+}
+
+table.customer {
+    padding: 10px;
+}
+
+td.left-align {
+    text-align: left;
+}
+
+th.blue {
+	background-color: #23397a;
+	color: white;
+	padding-top: 5px;
+}
+
+.blue-text {
+	color: #23397a;
+}
+
+th.right-align {
+	text-align: right;
+	padding-right: 10px;
+}
+
+h1.inline {
+    display: inline;
+}
+
+td.text-align-right {
+	text-align: right;
+	padding-right: 5px;
+	padding-top: 3px;
+}
+
+div.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: red;
+   color: white;
+   text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+@page {
+	size: a4 portrait;
+    @frame header_frame {           /* Static Frame */
+        -pdf-frame-content: header_content;
+        left: 25pt; right:25pt; width: 552pt; top: 20pt; height: 100pt;
+    }
+    @frame content_frame {          /* Content Frame */
+        left: 50pt; width: 512pt; top: 90pt; height: 632pt;
+    }
+    @frame footer_frame {           /* Another static Frame */
+        -pdf-frame-content: footer_content;
+        left: 50pt; width: 512pt; top: 760pt; height: 100pt;
+    }
+}
+
+div.nav_footer{
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+}
+</style>
+
+{% load static %}
+<body>
+<!-- Content for Static Frame 'header_frame' -->
+<div id="header_content">
+	<table class="borderless">
+	  <tr>
+	    <th> 
+	        <img src="{% static 'img/banner-reduced.jpg' %}" alt="" width='300'>
+	    </th>
+	    <th class='right-align'>
+	    	<h1 class='blue-text'> INVOICE </h1> <br/>
+	    	<h3> {% now "jS F Y" %} </h3> <br/>
+	    	<h3> #{{ order.order_id }} </h3> <br/>
+            <h3> {{ order.shipping_type }} </h3> <br/>
+            <h3> {{ order.payment_type }} </h3> <br/>
+	    </th>
+	  </tr>
+	</table>
+</div>
+
+<!-- Content for Static Frame 'footer_frame' -->
+<div id="footer_content">
+	<p style='text-align: center'>
+		Tel: 1300 886 944 <br/>
+		ABN: 87 123 411 605 <br/>
+		Metal Roofing Online is committed 100% to customer satisfaction. If any claims arise, this must be
+		within 7 days of delivery of goods by sending an email to sales@metalroofingonline.com.au or via phone.
+		Any claims requests which are not lodged within the time frame specified will not be accepted.
+		<br/>Page <pdf:pagenumber> of <pdf:pagecount>
+	</p>
+</div>
+
+<!-- HTML Content -->
+<br/>
+<table class="borderless">
+	<tr>
+		<td class="left-align">
+			<h1>
+				Delivery Address </br>
+			</h1>
+			{{ order.shipping_address.first_name }} {{order.shipping_address.last_name }} </br>
+			{{ order.shipping_address.address_line_1 }} </br>
+			{% if order.shipping_address.address_line_2 %}
+				{{ order.shipping_address.address_line_2 }} </br>
+			{% endif %}
+			{{ order.shipping_address.city }}, {{ order.shipping_address.postal_code }} </br>
+			{{ order.shipping_address.state }}, Australia <br/>
+            {{ order.shipping_address.phone_number }}
+		</td>
+		<td class="left-align">
+			<h1>
+				Billing Address </br>
+			</h1> 
+			{{ order.billing_address.first_name }} {{order.billing_address.last_name }} </br>
+			{{ order.billing_address.address_line_1 }} </br>
+			{% if order.billing_address.address_line_2 %}
+				{{ order.billing_address.address_line_2 }} </br>
+			{% endif %}
+			{{ order.billing_address.city }}, {{ order.billing_address.postal_code }} </br>
+			{{ order.billing_address.state }}<br/>
+            {{ order.billing_address.phone_number }}
+		</td>
+	</tr>
+</table>
+
+<br/>
+
+<table>
+	<tr>
+		<td class='left-align'>
+			Order Number: <br/> {{ order.order_id }}
+			<!-- Invoice Status: <strong>{{ order.status|title }}</strong> -->
+		</td>
+		<td class='left-align'>Order Date: <br/> {{ order.timestamp }}</td>
+        <td class='left-align'>Expected Delivery Date: <br/> {{order.delivery_date}}</td>
+	</tr>
+</table>
+
+<br/>
+<table style='text-align: left;'>
+  <thead>
+    <tr>
+      <th class='blue' scope="col" width="45%" style='text-align:left; padding-left:5px'>Product</th>
+      <th class='blue' scope="col" width="20%" style='text-align:left;'>Colour</th>
+      <th class='blue' scope="col" width="10%" style='text-align:left;'>Qty</th>
+      <th class='blue' scope="col" width="10%" style='text-align:left;'>Length</th>
+      <th class='blue' scope="col" width="15%" style='text-align:right; padding-right:5px'>Total (Tax Incl.)</th>
+    </tr>
+  </thead>
+  <tbody>
+  	{% for item in order.orderitem_set.all %}
+        <tr>
+	  		<td scope="col" class="padding" style='{% if forloop.counter|divisibleby:2 %}background-color: lightgrey;{% endif %} text-align:left; padding-left:5px;'>{{ item.product.stripped_title }}{% if item.additional_drop_down %} - {{ item.additional_drop_down }}{% endif %}</td>
+	  		<td scope="col" class="padding" style='{% if forloop.counter|divisibleby:2 %}background-color: lightgrey;{% endif %}text-align:left;'>
+            {% if item.colour %}{{ item.colour }}{% else %}-{% endif %}</td>
+	  		{% if item.length|stringformat:"s" == "0.00" %}
+	  			<td scope="col" class="padding" style='{% if forloop.counter|divisibleby:2 %}background-color: lightgrey;{% endif %}text-align:left;'>-</td>
+            {% endif %}
+            <td scope="col" class="padding" style='{% if forloop.counter|divisibleby:2 %}background-color: lightgrey;{% endif %}text-align:left; padding-left:2px'>{{ item.quantity }}</td>
+            {% if item.length %}
+                <td scope="col" class="padding" style='{% if forloop.counter|divisibleby:2 %}background-color: lightgrey;{% endif %}text-align:left;'>{{ item.length }}</td>
+	  		{% else %}
+	  			<td scope="col" class="padding" style='{% if forloop.counter|divisibleby:2 %}background-color: lightgrey;{% endif %}text-align:left;'>-</td>
+	  		{% endif %}
+			<td scope="col" class="padding" style='{% if forloop.counter|divisibleby:2 %}background-color: lightgrey;{% endif %} text-align:right; padding-right:5px'>${{ item.line_price }}</td>
+	  	</tr>
+	{% endfor %}
+	<tr><td colspan="5"></td></tr>
+
+
+	<tr><td colspan="5"></td></tr>
+	<tr><td colspan="5"></td></tr>
+
+	<tr>
+		<td class='text-align-right' colspan='4'>GST: </td>
+		<td class='padding' style='text-align:right; padding-right:5px'>${{ order.tax }}</td>
+	</tr>
+	<tr>
+		<td class='text-align-right' colspan='4'>Shipping: </td>
+		<td class='padding' style='text-align:right; padding-right:5px'>${{ order.shipping_total }}</td>
+	</tr>
+	<tr>
+		<td class='text-align-right' colspan='4'>Total: </td>
+		<td class='padding' style='text-align:right; padding-right:5px'>${{ order.total }}</td>
+	</tr>
+	
+  	<tr><td colspan="5"></td></tr>
+  	<tr><td colspan="5"></td></tr>
+  </tbody>
+</table>
+
+<div class="nav_footer">
+{% if order.order_instructions %}
+<p style="font-size: 1.2em">
+	<span style="text-align:left;padding-top:10px;">
+		Delivery Note: {{ order.order_instructions }}
+	</span>
+</p>
+{% endif %}
+<p style="font-size: 1.2em">
+	<span colspan='5' style="text-align:left;padding-top:10px;">Delivery dates are subject to change based on a number of external factors.</span>
+</p>
+</div>
+
+<br>
+<br>
+<br>
+{% if order.delivery_instructions %}
+<h3>Delivery Instructions</h3>
+<br>
+{{ order.delivery_instructions }}
+{% endif %}
+</body>
+</html>

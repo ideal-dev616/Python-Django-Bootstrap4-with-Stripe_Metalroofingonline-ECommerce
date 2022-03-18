@@ -1,0 +1,55 @@
+<div class="card borderless roofing-card mb-3 mx-auto cursor-pointer position-relative bg-white mb-1 p-2 mt-auto">
+    <a href="{{ instance.get_absolute_url }}">
+    <!-- <a href="{{ instance.get_absolute_url }}" style='min-height: 304px;'> -->
+        <img class="card-img-top" src="{{ instance.imageoption_set.first.option.image.url }}" alt="{{ instance.title }} logo">
+    </a>
+    <a class="hyperlink-inherit" href="{{ instance.get_absolute_url }}">
+        <div class="card-body no-padding-card roofing-card">
+            <div class='row mb-2'>
+                {% if request.session.state_selected == 'ACT' %} 
+                {{ instance.nsw_title|upper }} 
+                {% elif request.session.state_selected == 'NSW' %} 
+                {{ instance.nsw_title|upper }} 
+                {% elif request.session.state_selected == 'NT' %} 
+                {{ instance.vic_title|upper }} 
+                {% elif request.session.state_selected == 'QLD' %} 
+                {{ instance.qld_title|upper }} 
+                {% elif request.session.state_selected == 'SA' %} 
+                {{ instance.vic_title|upper }} 
+                {% elif request.session.state_selected == 'TAS' %} 
+                {{ instance.wa_title|upper }} 
+                {% elif request.session.state_selected == 'VIC' %} 
+                {{ instance.vic_title|upper }}
+                {% elif request.session.state_selected == 'WA' %} 
+                {{ instance.vic_title|upper }} 
+                {% elif not request.session.state_selected %}
+                {{ instance.vic_title|upper }} 
+                {% endif %}
+            </div>
+            <div class='row'>
+                {% if request.session.state_selected == 'ACT' %}
+                <strong style="font-size:20px">${{ instance.nsw_price|floatformat:2 }}</strong>
+                {% elif request.session.state_selected == 'NSW' %}
+                <strong style="font-size:20px">${{ instance.nsw_price|floatformat:2 }}</strong>
+                {% elif request.session.state_selected == 'NT' %}
+                <strong style="font-size:20px">${{ instance.vic_price|floatformat:2 }}</strong>
+                {% elif request.session.state_selected == 'QLD' %}
+                <strong style="font-size:20px">${{ instance.qld_price|floatformat:2 }}</strong>
+                {% elif request.session.state_selected == 'SA' %}
+                <strong style="font-size:20px">${{ instance.vic_price|floatformat:2 }}</strong>
+                {% elif request.session.state_selected == 'TAS' %}
+                <strong style="font-size:20px">${{ instance.wa_price|floatformat:2 }}</strong>
+                {% elif request.session.state_selected == 'VIC' %}
+                <strong style="font-size:20px">${{ instance.vic_price|floatformat:2 }} </strong> 
+                {% elif request.session.state_selected == 'WA' %}
+                <strong style="font-size:20px">${{ instance.vic_price|floatformat:2 }}</strong>
+                {% elif not request.session.state_selected %}
+                <strong style="font-size:20px">${{ instance.vic_price|floatformat:2 }}</strong>
+                {% endif %}
+                {% if instance.lengthoption_set.all|length > 0 %}
+                <span style="font-size:10px;margin-top:6px">&nbsp;per lineal metre</span>
+                {% endif %}
+            </div>
+        </div>
+    </a>
+</div>

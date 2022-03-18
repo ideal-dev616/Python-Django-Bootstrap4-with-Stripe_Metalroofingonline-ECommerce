@@ -1,0 +1,51 @@
+{% extends "base/base_page/checkout_base.html" %}
+{% block content %}
+{% load static %}
+{% load humanize %}
+
+{% if cart.total > 0 %}
+<!-- Modal -->
+<!-- <div class="toast notification bg-success" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
+  <div class="toast-header">
+    <strong class="mr-auto">
+      <i class="fas fa-check mr-2"></i>
+      Success
+    </strong>
+    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="toast-body">
+    Your cart is saved successfully!
+  </div>
+</div> -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel">Error!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% include 'addresses/checkout.html' with form=checkout_form next_url='/' action_url='/' %}
+
+{% else %}
+<div class='row'>
+    <div class='col text-center mt-4'>
+        <h1>Your cart is empty!</h1>
+    </div>
+</div>
+{% endif %}
+<script type="text/javascript">
+var startDate = "+{{ startDate }}d";
+</script>
+{% endblock %}

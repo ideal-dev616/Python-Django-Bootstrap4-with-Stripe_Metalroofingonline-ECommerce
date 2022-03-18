@@ -1,0 +1,13 @@
+<!-- change_form.html -->
+
+{% extends "admin/change_list.html" %}
+
+{% block result_list %}
+{{ block.super }}
+
+<div style="margin-top: 20px;">
+    new price: <input id='new_price' type="text" value="" name="new_price"/>
+</div>
+
+{% endblock %}
+

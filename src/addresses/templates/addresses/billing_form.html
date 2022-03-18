@@ -1,0 +1,143 @@
+<form class="address-form mb-5" method='POST' action='{% if action_url %}{{ action_url }}{% else %}{% url "login" %}{% endif %}'>
+    {% csrf_token %} {% if next_url %}
+    <input type='hidden' name='next' value='{{ next_url }}' /> {% endif %} {% if address_type %}
+    <input type='hidden' name='address_type' value='{{ address_type }}' /> {% endif %} 
+
+    <div class="form-label-group border-square-blue">
+        {{ form.first_name }}
+        <label for='{{ form.first_name.name }}'>{{ form.first_name.label }}</label>
+    </div>
+    {{ form.first_name.errors }}
+
+    <div class="form-label-group border-square-blue">
+        {{ form.last_name }}
+        <label for='{{ form.last_name.name }}'>{{ form.last_name.label }}</label>
+    </div>
+    {{ form.last_name.errors }}
+
+    <div class="form-label-group border-square-blue">
+        {{ form.phone_number }}
+        <label for='{{ form.phone_number.name }}'>{{ form.phone_number.label }}</label>
+    </div>
+    {{ form.last_name.errors }}
+
+    <div class="form-label-group border-square-blue">
+      {{ form.address_autocomplete }}
+      <label for='{{ form.address_autocomplete.name }}'>{{ form.address_autocomplete.label }}</label>
+    </div>
+
+    <div class="form-label-group border-square-blue">
+        {{ form.address_line_1 }}
+        <label for='{{ form.address_line_1.name }}'>{{ form.address_line_1.label }}</label>
+    </div>
+    {{ form.address_line_1.errors }}
+
+    <div class="form-label-group border-square-blue">
+        {{ form.city }}
+        <label for='{{ form.city.name }}'>{{ form.city.label }}</label>
+    </div>
+    {{ form.city.errors }}
+
+    <div class="form-label-group border-square-blue">
+        {{ form.postal_code }}
+        <label for='{{ form.postal_code.name }}'>{{ form.postal_code.label }}</label>
+    </div>
+    {{ form.postal_code.errors }}
+
+    <div class="form-label-group border-square-blue">
+        {{ form.state }}
+        <label for='{{ form.state.name }}'>{{ form.state.label }}</label>
+    </div>
+    {{ form.state.errors }}
+
+    <div class="form-label-group border-square-blue">
+        {{ form.country }}
+        <label for='{{ form.country.name }}'>{{ form.country.label }}</label>
+    </div>
+    {{ form.country.errors }}
+
+    <button type='submit' class='btn background-orange text-white btn-lg btn-block'>CONTINUE</button>
+</form>
+
+<script>
+  // This example displays an address form, using the autocomplete feature
+  // of the Google Places API to help users fill in the information.
+
+  // This example requires the Places library. Include the libraries=places
+  // parameter when you first load the API. For example:
+  // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+  var placeSearch, autocomplete;
+  var componentForm = {
+    street_number: 'short_name',
+    route: 'long_name',
+    locality: 'long_name',
+    administrative_area_level_1: 'short_name',
+    country: 'long_name',
+    postal_code: 'short_name'
+  };
+
+  function initAutocomplete() {
+    // Create the autocomplete object, restricting the search to geographical
+    // location types.
+    autocomplete = new google.maps.places.Autocomplete(
+        /** @type {!HTMLInputElement} */(document.getElementById('address_autocomplete')),
+        {types: ['geocode']});
+
+    // When the user selects an address from the dropdown, populate the address
+    // fields in the form.
+    autocomplete.addListener('place_changed', fillInAddress);
+  }
+
+  function fillInAddress() {
+    // Get the place details from the autocomplete object.
+    var place = autocomplete.getPlace();
+
+    // Street and street number
+    val = place.address_components[0].short_name + " " + place.address_components[1].long_name;
+    document.getElementById('address_line_1').value = val;
+    // City
+    val = place.address_components[2].short_name;
+    document.getElementById('city').value = val;
+    // State
+    val = place.address_components[4].short_name;
+    document.getElementById('state').value = val;
+    // Country
+    val = place.address_components[5].long_name
+    document.getElementById('country').value = val;
+    // Postal Code
+    val = place.address_components[6].short_name
+    document.getElementById('postal_code').value = val;
+
+    for (var i = 0; i < place.address_components.length; i++) {
+          console.log(i + " HERE  " + place.address_components[i].short_name)
+        }
+
+    // Postal Code
+
+    for (var i = 0; i < place.address_components.length; i++) {
+        console.log(place.address_components[i].types[0]);
+    }
+  }
+
+  // Bias the autocomplete object to the user's geographical location,
+  // as supplied by the browser's 'navigator.geolocation' object.
+  function geolocate() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var geolocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        var circle = new google.maps.Circle({
+          center: geolocation,
+          radius: position.coords.accuracy
+        });
+        autocomplete.setBounds(circle.getBounds());
+      });
+    }
+  }
+</script>
+{% load custom_tags %}
+<script src="https://maps.googleapis.com/maps/api/js?key={% get_setting "GOOGLE_API_KEY" %}&libraries=places&callback=initAutocomplete"
+    async defer></script>

@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    {% if cart.cartitem_set.all.exists %}
+        {% load humanize %}
+        </div>
+        <script>
+            function change_qty() {
+                $("tbody").children("tr").each(function(index) {
+                    console.log($(this));
+                });
+            }
+        </script>
+        <div class='container-fluid background-blue mb-4 text-center'>
+            <h2 style='color:white; padding-top:5px; padding-bottom:5px;'> YOUR CART <span style='color: grey; font-size:75%;'>Cart Number</span><span style='color: grey; font-size:65%;'> {{ cart.pk }}</span></h2>
+        </div>
+        <div class='container'>
+            <div class='row'>
+                <div class='col-lg-7 col-md-6'>
+                    <table class="table cart-table">
+                        <tbody class='cart-body'>
+                            {% for item in cart.cartitem_set.all %}
+                                <tr class='cart-product'>
+                                    <td style='border-top:0px'>
+                                        <div class='row'>
+                                            <div class='col-3'>
+                                                <a href="{{ item.product.get_absolute_url }}">
+                                                    <img style='max-width:100%' src="{{ item.product.imageoption_set.first.option.image.url }}" alt="">
+                                                </a>
+                                            </div>
+                                            <div class='col-7'>
+                                                <a class='text-blue' id='item_name' href='{{ item.product.get_absolute_url }}'>
+                                                      {% if request.session.state_selected == 'ACT' %}
+                                                        {{ item.product.nsw_title }}
+                                                      {% elif request.session.state_selected == 'NSW' %}
+                                                        {{ item.product.nsw_title }}
+                                                      {% elif request.session.state_selected == 'NT' %}
+                                                        {{ item.product.vic_title }}
+                                                      {% elif request.session.state_selected == 'QLD' %}
+                                                        {{ item.product.qld_title }}
+                                                      {% elif request.session.state_selected == 'SA' %}
+                                                        {{ item.product.vic_title }}
+                                                      {% elif request.session.state_selected == 'TAS' %}
+                                                        {{ item.product.wa_title }}
+                                                      {% elif request.session.state_selected == 'VIC' %}
+                                                        {{ item.product.vic_title }}
+                                                      {% elif request.session.state_selected == 'WA' %}
+                                                        {{ item.product.vic_title }}
+                                                      {% else %}
+                                                        {{ item.product.title }}
+                                                      {% endif %}
+                                                </a>
+                                                <br/>
+                                                <span style='font-size:11px;'>
+                                                    $<span id='item.price'>{{ item.price|intcomma }}</span>
+                                                </span>
+                                                {% if item.colour %}
+                                                <br/>
+                                                <!-- COLOUR -->
+                                                <span style='font-size:11px;'>
+                                                    COLOUR: <span id='item_colour'> {{ item.colour }} </span>
+                                                </span>
+                                                {% endif %}
+
+                                                <!-- LENGTH -->
+                                                {% if item.length %}
+                                                <br/>
+                                                <span style='font-size:11px;'>
+                                                    LENGTH: <span id='item_length'> {{ item.length }} </span>
+                                                </span>
+                                                {% endif %}
+
+                                                <!-- ADDITIONAL -->
+                                                {% if item.additional_drop_down %}
+                                                <br/>
+                                                <span style='font-size:11px;'>
+                                                    ADDITIONAL: <span id='item_additional'> {{ item.additional_drop_down }} </span>
+                                                </span>
+                                                {% endif %}
+
+                                                <!-- QUANTITY -->
+                                                <br/>
+                                                QUANTITY:
+                                                </span>
+                                                <div class='row'>
+                                                    <div class='col-lg-8 col-md-8 col-sm-9 col-xs-12'>
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-prepend">
+                                                                <button class="btn btn-dark btn-sm" id="minus-btn-{{for.count}}" name="minus-btn" style='border-radius: 0;'><i class="fa fa-minus"></i></button>
+                                                            </div>
+
+                                                            <input type="number" id="qty_input" class="form-control form-control-sm text-center" value="{{item.quantity}}" min="1" style="border-radius:0;" disabled onchange="change_qty()">
+
+                                                            <div class="input-group-prepend">
+                                                                <button class="btn btn-dark btn-sm" id="plus-btn-{{for.count}}" name="plus-btn" style='border-radius: 0;'><i class="fa fa-plus"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class='values col-lg-2 col-md-2 col-sm-12 text-center' name=''>
+                                                {% include 'carts/snippets/remove-product.html' with product=item %}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class='col-lg-5 col-md-6 mb-3'>
+                    <div class="card" style='border-radius: 0;'>
+                        <div class="card-header text-center" style='border-radius: 0;'>
+                            <span class='text-blue'>
+                                ORDER SUMMARY
+                            </span>
+                        </div>
+                        <div class="card-body" style='border-radius: 0;'>
+                            <div class='row'>
+                                <div class='col-6 text-left'>
+                                    <strong>SUBTOTAL</strong> <span class='cart-count'>{{ cart.cartitem_set.count }}</span> ITEMS
+                                </div>
+                                <div class='col-6 text-right'>
+                                    <span class='cart-subtotal' style='font-weight: bold;'>${{ cart.subtotal|floatformat:2|intcomma }}</span>
+                                </div>
+                            </div>
+                            <div class='row'>
+                                <div class='col-6 text-left'>
+                                    DELIVERY
+                                </div>
+                                <div class='col-6 text-right'>
+                                    <span>Calculated on checkout</span>
+                                </div>
+                            </div>
+                            <div class='row'>
+                                <div class='col-6 text-left'>
+                                    GST
+                                    <br/>
+                                    <br/>
+                                    <strong>ESTIMATED TOTAL</strong>
+                                </div>
+                                <div class='col-6 text-right'>
+                                    <span class='cart-tax'>${{taxes|floatformat:2|intcomma }}</span>
+                                    <br/>
+                                    <br/>
+                                    <span class='cart-total' style='font-weight: bold;'>${{ total|floatformat:2|floatformat:2|intcomma }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-muted">
+                            <a class='btn background-orange text-white btn-lg btn-block' style='border-radius: 0;' href='{% url "cart:checkout" %}'>PROCEED TO CHECKOUT</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='cart-item-remove-form' style='display:none'>
+                {% include 'carts/snippets/remove-product.html' %}
+            </div>
+    {% else %}
+        <div class='row'>
+            <div class='col text-center'>
+                <h1>Cart is empty</h1>
+            </div>
+        </h>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,548 @@
+<div class='container-fluid background-blue mb-4 text-center'>
+    <h2 style='color:white; padding-top:5px; padding-bottom:5px;'>Cart Number: {{ cart.pk }}</h2>
+</div>
+<form class="checkout-form" method='POST' action='/cart/validate_form/' id='main_form'>
+    {% csrf_token %}
+    {% load static %}
+    <div class='container'>
+        <div class='row'>
+            <!-- Delivery info col -->
+            <div class='col-lg-4 col-m-12 mb-1'>
+                <div class='row'>
+                    <div class='col text-center'>
+                        <div class="border-bottom-grey pb-3">
+                            <i class="fas fa-map-marker mr-1"></i>
+                            DELIVERY INFO
+                        </div>
+                    </div>
+                </div>
+                <div class='mt-4'>
+                    <div class='row mb-2'>
+                        <div class='col'>
+                            DELIVER TO
+                        </div>
+                    </div>
+                    <div class='row text-center padding'>
+                        {% if state_selected == 'VIC' %}
+                        <a class='col-6 themed-grid-col themed-grid-col-selected color-inherit mt-1' href='#' id='deliver-link'>
+                            DELIVER
+                        </a>
+                        <a class='col-6 themed-grid-col color-inherit mt-1' href='#' id='collect-link'>
+                            COLLECT
+                        </a>
+                        {% else %}
+                        <a class='col-12 themed-grid-col themed-grid-col-selected color-inherit mt-1' href='#' id='deliver-link'>
+                            DELIVER
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class='row mt-3'>
+                    <div class='col'>
+                        <!-- FORM -->
+                        <form>
+                            <!-- EMAIL -->
+                            {{ form.email.label }}
+                            <div class="form-group">
+                                {{ form.email }}
+                            </div>
+                            {{ form.email.errors }}
+                            <!-- FIRST NAME -->
+                            {{ form.first_name.label }}
+                            <div class="form-group">
+                                {{ form.first_name }}
+                            </div>
+                            {{ form.first_name.errors }}
+                            <!-- LAST NAME -->
+                            {{ form.last_name.label }}
+                            <div class="form-group">
+                                {{ form.last_name }}
+                            </div>
+                            {{ form.last_name.errors }}
+                            <!-- PHONE NUMBER -->
+                            {{ form.phone_number.label }}
+                            <div class="form-group">
+                                {{ form.phone_number }}
+                            </div>
+                            {{ form.phone_number.errors }}
+                             <!-- BILLING ADDRESS -->
+                             {{ form.billing_address.label }}
+                             <div class="form-group">
+                                 {{ form.billing_address }}
+                             </div>
+                             {{ form.billing_address.errors }}
+                            <!-- DELIVERY ADDRESS AUTO COMPLETE -->
+                            <span id='delivery-autocomplete-label'>
+                                {{ form.autocomplete.label }}
+                            </span>
+                            <div class="form-group right-inner-addon" id='autocomplete-group'>
+                                <i class="fas fa-search" style='padding-top:18px;'></i>
+                                {{ form.autocomplete }}
+                                <div class='text-center mt-1' style='font-size: 14px; color: red' id='search-error' hidden>
+                                </div>
+                                <div class='text-center mt-1' style='font-size: 14px'>
+                                    Can't find your address?
+                                    <a class='pl-1' href='' id='full-form-link'>Use our full form.</a>
+                                </div>
+                            </div>
+                            <!-- ADDRESS -->
+                            <div class="form-group" id='address-group' hidden>
+                                {{ form.address_line_1.label }}
+                                {{ form.address_line_1 }}
+                            </div>
+                            {{ form.address_line_1.errors }}
+                            <!-- SUBURB -->
+                            <div class="form-group" id='city-group' hidden>
+                                {{ form.city.label }}
+                                {{ form.city }}
+                            </div>
+                            {{ form.city.errors }}
+                            <!-- POST CODE -->
+                            <div class="form-group" id='postal-group' hidden>
+                                {{ form.postal_code.label }}
+                                {{ form.postal_code }}
+                            </div>
+                            {{ form.postal_code.errors }}
+                            <!-- STATE -->
+                            <div class="form-group" id='state-group' hidden>
+                                {{ form.state.label }}
+                                {{ form.state }}
+                            </div>
+                            {{ form.state.errors }}
+                        </form>
+                        <!-- END FORM -->
+                    </div>
+                </div>
+            </div>
+            <!-- DELIVERY -->
+            {% if postage is False %}
+            <div class='col-lg-4 col-m-12 text-center mb-4'>
+                <div class='row'>
+                    <div class='col'>
+                        <div class="border-bottom-grey pb-3">
+                            <i class="fas fa-truck mr-1"></i>
+                            DELIVERY OPTION
+                        </div>
+                    </div>
+                </div>
+                <!-- DO IF POSTAGE THEN SHOW POSTAGE OPTION ETC.-->
+                <div class='row mt-4'>
+                    <div class='col text-left'>
+                        SELECT DELIVERY OPTION
+                    </div>
+                </div>
+                <div class='row delivery-form no-padding mt-2'>
+                    <div class='col delivery-options' id='delivery-option'>
+                        Please enter your address to see delivery options
+                    </div>
+                    <div class='col delivery-options' hidden>
+                        <div class="form-check text-left">
+                            <input class="form-check-input delivery-checkbox border-bottom-grey" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                            <label class="form-check-label delivery-label" for="exampleRadios1">
+                                Delivery to Cheltenham - $90.00
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- TODO SET THIS TO HIDDEN -->
+                <div class='row mt-3' id='delivery-date-selector'>
+                    <div class='col text-left'>
+                        <!-- DELIVERY DATE -->
+                        <div class="form-group">
+                            CHOOSE DELIVERY TYPE
+                            <div class='mb-2'></div>
+                            <div class='row'>
+                                <div class='col'>
+                                    <button class="btn delivery-type-btn btn-block" type='button' id='asap_btn'>
+                                        <strong>
+                                            DELIVER AS SOON AS POSSIBLE
+                                            <span class='ml-2' id='asap_check'>
+                                                <i class="fa fa-check"></i>
+                                            </span>
+                                        </strong>
+                                    </button>
+                                    <button class="btn delivery-type-unselected btn-block" type='button' id='choose_btn'>
+                                        <strong>
+                                            CHOOSE A DATE
+                                            <span class='ml-2' id='choose_check' hidden>
+                                                <i class="fa fa-check"></i>
+                                            </span>
+                                        </strong>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class='row' id='calendar' hidden>
+                                <div class='col'>
+                                    <div class="form-group mt-2">
+                                        <div id='datepicker'></div>
+                                        <!-- hidden field to store date -->
+                                        {{ form.delivery_date }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- DELIVERY NOTES -->
+                        <div class="form-group" id='delivery-instructions-group'>
+                            {{ form.delivery_instructions.label }}
+                            {{ form.delivery_instructions }}
+                        </div>
+                        {{ form.delivery_instructions.errors }}
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col text-left">
+                        <!-- Order Instructions -->
+                        <div class="form-group" id='order-instructions-group'>
+                            {{ form.order_instructions.label }}
+                            {{ form.order_instructions }}
+                        </div>
+                        {{ form.order_instructions.errors }}
+                    </div>
+                </div>
+            </div>
+            <!-- if postage is False end -->
+            {% else %}
+            <div class='col-lg-4 col-m-12 text-center mb-4'>
+                <div class='row'>
+                    <div class='col'>
+                        <div class="border-bottom-grey pb-3">
+                            <i class="fas fa-truck mr-1"></i>
+                            DELIVERY OPTION
+                        </div>
+                    </div>
+                </div>
+                <!-- DO IF POSTAGE THEN SHOW POSTAGE OPTION ETC.-->
+                <div class='row mt-4'>
+                    <div class='col text-left' id='postage-option-label'>
+                        SELECT DELIVERY OPTION
+                    </div>
+                </div>
+                <div class='row delivery-form no-padding mt-2'>
+                    <div class='col delivery-options' id='postage-option'>
+                        <div class="form-check text-left">
+                            <input class="form-check-input delivery-checkbox border-bottom-grey" type="radio" name="postage" id="standard" value="standard" required>
+                            <label class="form-check-label delivery-label" for="standard">
+                                Standard Postage - ${% if state_selected == 'WA' %}20.99{% else %}17.99{% endif %}
+                            </label>
+                        </div>
+                        <hr>
+                        <div class="form-check text-left">
+                            <input class="form-check-input delivery-checkbox" type="radio" name="postage" id="express" value="express">
+                            <label class="form-check-label delivery-label" for="express">
+                                Express Postage - ${% if state_selected == 'WA' %}28.99{% else %}25.99{% endif %}
+                            </label>
+                        </div>
+                    </div>
+                    <!-- Hidden form for when collect is chosen -->
+                    <div class='col delivery-options' id='pickup-option' hidden>
+                        Free pickup has been selected.<br />Please collect from 48 Watt Road, Mornington.<br />
+                        Collection must be in an appropriate vehicle.<br />
+                        Photo of your vehicle will be requested.<br />
+
+
+
+                    </div>
+                </div>
+                <span id='postage-error' style='color: red;' hidden>Please select a postage option.</span>
+                <!-- Order Instructions -->
+                <div class="form-group" id='order-instructions-group'>
+                    {{ form.order_instructions.label }}
+                    {{ form.order_instructions }}
+                </div>
+                {{ form.order_instructions.errors }}
+            </div>
+            {% endif %}
+
+            {{ form.postage }}
+            {{ form.stripe_token }}
+            <!-- PAYMENT COL -->
+            <div class='col-lg-4 col-m-12 text-center mb-4'>
+                <div class='row'>
+                    <div class='col'>
+                        <div class="border-bottom-grey pb-3">
+                            <i class="far fa-credit-card mr-1"></i> PAYMENT
+                        </div>
+                    </div>
+                </div>
+                <div class='delivery-form mt-4'>
+                    <div class='row mb-2'>
+                        <i class="fas fa-lock pr-2 pt-1"></i> SECURE PAYMENT METHOD
+                    </div>
+                    <div class='row text-center'>
+                        <a class='col-6 themed-grid-col-img themed-grid-col-selected color-inherit mt-1' href='#' id='stripe-payment'>
+                            <img src="{% static 'img/credit-card-logos.png' %}" alt="credit card logos">
+                        </a>
+                        <a class='col-6 themed-grid-col-img color-inherit mt-1' href='#' id='paypal-payment'>
+                            <img src="{% static 'img/paypal.png' %}" alt="credit card logos">
+                        </a>
+                    </div>
+                </div>
+                <!-- Stripe -->
+                <div class='row'>
+                    <div class='col mt-3 text-left' id='stripe-form'>
+                        CARD INFORMATION
+                        <div class='text-left stripe ml-1 mr-1'>
+                            <form class='mt-2' data-token='{{ publish_key }}' action="/cart/validate-form/" method="post" id="payment-form">
+                                {% csrf_token %}
+                                <div class="form-row">
+                                    <div id="card-element">
+                                        <!-- A Stripe Element will be inserted here. -->
+                                    </div>
+                                    <!-- Used to display form errors. -->
+                                    <div id="card-errors" role="alert"></div>
+                                </div>
+                                <button id='stripe_btn' hidden="">Submit Payment</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col'>
+                        <button class="btn billing-button mt-2 btn-block" type='button' id='billing_btn'>
+                            <strong>
+                                SET A DIFFERENT BILLING ADDRESS?
+                            </strong>
+                        </button>
+                    </div>
+                </div>
+                <div class='row text-left'>
+                    <div class='col mt-2' id='billing_group' hidden>
+                        <!-- FORM -->
+                        <!-- FIRST NAME -->
+                        {{ form.billing_first_name.label }}
+                        <div class="form-group">
+                            {{ form.billing_first_name }}
+                        </div>
+                        {{ form.billing_first_name.errors }}
+                        <!-- LAST NAME -->
+                        {{ form.billing_last_name.label }}
+                        <div class="form-group">
+                            {{ form.billing_last_name }}
+                        </div>
+                        {{ form.billing_last_name.errors }}
+                        <!-- PHONE NUMBER -->
+                        {{ form.billing_phone_number.label }}
+                        <div class="form-group">
+                            {{ form.billing_phone_number }}
+                        </div>
+                        {{ form.billing_phone_number.errors }}
+                        <!-- ADDRESS -->
+                        <div class="form-group" id='billing_address_group'>
+                            {{ form.billing_address_line_1.label }}
+                            {{ form.billing_address_line_1 }}
+                        </div>
+                        {{ form.billing_address_line_1.errors }}
+                        <!-- SUBURB -->
+                        <div class="form-group" id='billing_city_group'>
+                            {{ form.billing_city.label }}
+                            {{ form.billing_city }}
+                        </div>
+                        {{ form.billing_city.errors }}
+                        <!-- POST CODE -->
+                        <div class="form-group" id='billing_postal_group'>
+                            {{ form.billing_postal_code.label }}
+                            {{ form.billing_postal_code }}
+                        </div>
+                        {{ form.billing_postal_code.errors }}
+                        <!-- STATE -->
+                        <div class="form-group" id='billing_state_group'>
+                            {{ form.billing_state.label }}
+                            {{ form.billing_state }}
+                        </div>
+                        {{ form.billing_state.errors }}
+                        <div class="form-group" id='billing_country_group'>
+                            {{ form.billing_country.label }}
+                            {{ form.billing_country }}
+                        </div>
+                        {{ form.billing_country.errors }}
+                        <!-- END FORM -->
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col'>
+                        <div class='checkout-summary mt-2'>
+                            <div class='row delivery-form text-center mb-3'>
+                                <div class='col'>
+                                    YOUR ORDER
+                                </div>
+                            </div>
+                            <!-- Cart count + subtotal -->
+                            <div class='row'>
+                                <div class='col text-left ml-4'>
+                                    {{ cart_count }} Items
+                                </div>
+                                <div class='col text-right mr-4'>
+                                    ${{ cart.total }}
+                                </div>
+                            </div>
+                            <!-- Items in cart -->
+                            <div class='row mt-2'>
+                                <div class='col text-left ml-4 mr-4'>
+                                    <hr style='border-color: white' />
+                                    {% for item in cart.cartitem_set.all %}
+                                    <div class='row'>
+                                        <div class='col-1 mr-2 text-left'>
+                                            <img src="{{ item.product.imageoption_set.first.option.image.url }}" alt="{{ item.imageoption_set.first.option.alt}}" height=40 width=30>
+                                        </div>
+                                        <div class='col-7 text-left'>
+                                            {{ item.product.title }}
+                                            <br />
+                                            <div class='mr-1 inline'>
+                                                Qty: {{ item.quantity }}
+                                            </div>
+                                            {% if item.colour %}
+                                            <div class='mr-1 inline'>
+                                                {{ item.colour }}
+                                            </div>
+                                            {% endif %}
+                                            <!-- <div>Length: {{ item.length }}</div> -->
+                                            {% if item.length %}
+                                                <div>Length: {{ item.length }}</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class='col text-right'>
+                                            ${{ item.line_price }} 
+                                        </div>
+                                    </div>
+                                    <hr style='border-color: white' />
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <!-- Delivery -->
+                            <div class='row my-2'>
+                                <div class='col text-left ml-4'>
+                                    Delivery
+                                </div>
+                                <div class='col text-right mr-4'>
+                                    $<span id='delivery-amount'>0</span>
+                                </div>
+                            </div>
+                            <!-- Total -->
+                            <div class='row'>
+                                <div class='col text-left ml-4'>
+                                    Total
+                                </div>
+                                <div class='col text-right mr-4'>
+                                    $<span id='total'>{{ cart.total }}</span><br />
+                                    <input id='cart_total' value='{{ cart.total }}' hidden>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button id='submit_btn' type="submit" hidden></button>
+                <button class="btn checkout-button mt-2 btn-block" id='place_order_btn' type="button" style="height: 80px; font-size: 20px;">
+                    <strong>
+                        <i class="mr-2 far fa-credit-card"></i>PLACE YOUR ORDER
+                    </strong>
+                </button>
+                <button class="btn checkout-button mt-2 btn-block" id='place_order_btn_paypal' type="button" hidden style="height: 80px; font-size: 20px;">
+                    <strong>
+                        <i class="mr-2 fab fa-paypal"></i>CONTINUE TO CHECKOUT
+                    </strong>
+                </button>
+                <div class="my-2" style="color: red; font-weight: bold;">OR</div>
+                <button class="btn btn-block" id='save_your_cart' type="button" style="cursor: pointer;border: 1px solid #ced4da;font-size: 14px; height: 50px">
+                    <strong class="text-muted">
+                        SAVE YOUR CART FOR LATER
+                    </strong>
+                </button>
+                <form>
+                </form>
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+var startDate = "+{{ startDate }}d";
+var pub_key = "{{publish_key}}";
+var datesDisabled = {{ disabledDates|safe }}
+</script>
+<script>
+// Stops google chrome from trying to autocomplete the input form which blocks the search result
+var autocompleteInput = document.getElementById("autocomplete");
+
+var observerHack = new MutationObserver(function() {
+    observerHack.disconnect();
+    $("#autocomplete").attr("autocomplete", "new-password");
+});
+
+observerHack.observe(autocompleteInput, {
+    attributes: true,
+    attributeFilter: ['autocomplete']
+});
+
+// Google places autocomplete
+// This displays an address form, using the autocomplete feature
+// of the Google Places API to help users fill in the information.
+var placeSearch, autocomplete;
+
+var options = {
+    types: ['geocode'],
+    componentRestrictions: { country: 'au' }
+};
+
+function initAutocomplete() {
+    // Create the autocomplete object, restricting the search to geographical
+    // location types.
+    autocomplete = new google.maps.places.Autocomplete(
+        /** @type {!HTMLInputElement} */
+        (document.getElementById('autocomplete')), options);
+
+    // When the user selects an address from the dropdown, populate the address
+    // fields in the form.
+    autocomplete.addListener('place_changed', fillInAddress);
+}
+
+function fillInAddress() {
+    // Get the place details from the autocomplete object.
+    var place = autocomplete.getPlace();
+    var state_selected = $('#navbarDropdownState option:selected').val();
+
+    if (place.address_components[4].short_name != state_selected) {
+        $('#search-error').text("Selected location state does not match selected state in header. Please choose a different address");
+        $('#search-error').attr("hidden", false);
+        $('#autocomplete').val("");
+    } else {
+        $('#search-error').attr("hidden", true);
+        // Street and street number
+        val = place.address_components[0].short_name + " " + place.address_components[1].long_name;
+        document.getElementById('address_line_1').value = val;
+        // City
+        val = place.address_components[2].short_name;
+        document.getElementById('city').value = val;
+        // State
+        val = place.address_components[4].short_name;
+        document.getElementById('state').value = val;
+        // Postal Code
+        val = place.address_components[6].short_name;
+        document.getElementById('postal_code').value = val;
+        // trigger an event to update shipping
+        var element = document.getElementById('postal_code');
+        var event = new Event('change');
+        element.dispatchEvent(event);
+    }
+}
+
+// Bias the autocomplete object to the user's geographical location,
+// as supplied by the browser's 'navigator.geolocation' object.
+function geolocate() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var geolocation = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            var circle = new google.maps.Circle({
+                center: geolocation,
+                radius: position.coords.accuracy
+            });
+            autocomplete.setBounds(circle.getBounds());
+        });
+    }
+}
+</script>
+{% load custom_tags %}
+<script src="https://maps.googleapis.com/maps/api/js?key={% get_setting "GOOGLE_API_KEY" %}&libraries=places&callback=initAutocomplete" async defer></script>

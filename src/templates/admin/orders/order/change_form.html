@@ -1,0 +1,45 @@
+<!-- change_form.html -->
+
+{% extends "admin/change_form.html" %}
+{% load admin_list i18n cache %}
+{% block submit_buttons_bottom %}
+{{ block.super }}
+
+{% if original %}
+<style>
+
+.table th {
+  text-align: center;
+}
+</style>
+
+<a href={% url 'admin:confirm-supplier' original.pk %}><input type="button" style='background: #bae1ff' value="Supplier" id="supplier_button" name="_button1"/></a>
+<!--<a href={% url 'admin:print-flashing' original.pk %} target='_blank'><input type="button" style='background: #bae1ff' value="Flashings" id="flashings_button" name="_button1" name="_button2"/></a>-->
+<a href={% url 'admin:confirm-packing' original.pk %}><input type="button" style='background: #bae1ff' value="Packing" id="packing_button" name="_button1" name="_button3"/></a>
+<a href={% url 'admin:print-invoice' original.pk %}><input type="button" style='background: #bae1ff' value="Customer Invoice" id="customer_invoice_button" name="_button4" target='_blank'/></a>
+<input id='select_all' type="button" value="Complete All" name="_button1"></button>
+<table class="table" style='margin-top:10px;'>
+  <thead>
+    <tr>
+      <th scope="col" colspan="2">FUNDS</th>
+    </tr>
+  </thead>
+  <tbody id='table-body'>
+      <tr>
+        <td scope="col">Order Total: </td>
+        <td scope="col">{{ original.total }}</td>
+      </tr>
+      <tr>
+        <td scope="col">Amount Paid: </td>
+        <td scope="col">{{ original.paid }}</td>
+      </tr>
+      <tr>
+        <td scope='col'>Amount Owed:</td>
+        <td scope='col'>{{ original.owed }}</td>
+      </tr>
+  </tbody>
+</table>
+{% endif %}
+
+{% endblock %}
+

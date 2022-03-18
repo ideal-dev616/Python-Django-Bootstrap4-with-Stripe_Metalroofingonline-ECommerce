@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class='container'>
+    {% for product in products %}
+        {% if product.old_url_vic %}
+        <br/>path('{{ product.old_url_vic }}', RedirectView.as_view(url='products/{{ product.slug }}')),
+        {% endif %}
+        {% if product.old_url_nsw %}
+        <br/>path('{{ product.old_url_nsw }}', RedirectView.as_view(url='{{ product.slug }}')),
+        {% endif %}
+        {% if product.old_url_qld %}
+        <br/>path('{{ product.old_url_qld }}', RedirectView.as_view(url='{{ product.slug }}')),
+        {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

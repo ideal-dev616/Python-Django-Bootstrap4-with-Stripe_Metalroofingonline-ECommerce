@@ -1,0 +1,9 @@
+<form method='GET' action='{% url "search:query" %}' class="form mb-1 search-form" style='width:100%'>
+    <div class='input-group'>
+    	<input id='search' class='borderless text-center' type="text" name='q' value='{{ request.GET.q }}' class="form-control"  placeholder="ENTER KEYWORD(S) HERE" style='width:100%'>
+    	<span class="input-group-addon" hidden>
+            <button type="submit">
+            </button>  
+        </span>
+	</div>
+</form>

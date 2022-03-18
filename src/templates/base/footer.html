@@ -1,0 +1,89 @@
+{% load static %}
+{% load get_testimonials from custom_tags %}
+
+<!--Footer-->
+<footer class="footer background-blue" id="page-footer">
+    {% get_testimonials %}
+    <div class='container-fluid'>
+        <div class="row background-blue">
+            <div class="col mt-3 text-center text-white" style='font-size: 20px;'>
+                <img class='mr-2' src='{% static "img/triangle.png" %}' height='20px'> Follow us
+            </div>
+        </div>
+        <div class="row background-blue">
+            <div class='col ml-4 mb-3 text-center text-white'>
+                <a style='text-decoration: none;' target="_blank" href='https://www.facebook.com/metalroofingonline/'>
+                        <i class="fab fa-facebook-f mt-4 mr-4"></i>
+                    </a>
+                <a style='text-decoration: none;' target="_blank" href='https://www.instagram.com/metalroofingonline/'>
+                        <i class="fab fa-instagram mr-4"></i>
+                    </a>
+                <a style='text-decoration: none;' target="_blank" href='https://www.youtube.com/channel/UCcCYpmqcm6KRDCKWjUsgmww?view_as=subscriber'>
+                        <i class="fab fa-youtube mr-4"></i>
+                    </a>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!--Footer Links-->
+    <div class='background-white mt-5' style='border-top: solid 2px LightSteelBlue; font-size: 14px;'>
+        <div class="container-fluid mt-5 text-cener text-md-left" style='margin-left: auto; margin-right: auto; text-align: left;'>
+            <div class="row mt-3">
+                <!--First column-->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                    <h6 class="text-uppercase font-weight-bold text-orange pb-2">INFORMATION</h6>
+                    <p><a href="/contact/">Contact Us</a></p>
+                    <p><a href="/delivery/">Delivery</a></p>
+                    <p><a href="/TOS/">Terms & Conditions Of Use</a></p>
+                    <p><a href="/technical-centre/">Technical Centre</a></p>
+                    <p><a href="/FAQ/">Frequently Asked Questions</a></p>
+                    <p><a href="/refund-policy/">Refund Policy</a></p>
+                </div>
+                <!--/.First column-->
+                <!--Second column-->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                    <h6 class="text-uppercase font-weight-bold text-orange pb-2">MY ACCOUNT</h6>
+                    <p><a href="#!">My Orders</a></p>
+                    <p><a href="javascript:goto_cart()">My Carts</a></p>
+                    <p><a href="#!">My Addresses</a></p>
+                    <p><a href="#!">My Personal Info</a></p>
+                </div>
+                <!--/.Second column-->
+                <!--Third column-->
+                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto">
+                    <h6 class="text-uppercase font-weight-bold text-orange pb-2">FOLLOW US</h6>
+                    <p><a href="https://www.facebook.com/metalroofingonline/"><i class="fab fa-facebook-f mr-2"></i>Facebook</a></p>
+                    <p><a href="https://www.instagram.com/metalroofingonline/"><i class="fab fa-instagram mr-2"></i>Instagram</a></p>
+                    <p><a href="https://www.youtube.com/channel/UCcCYpmqcm6KRDCKWjUsgmww?view_as=subscriber"><i class="fab fa-youtube mr-2"></i>YouTube</a></p>
+                </div>
+                <!--/.Third column-->
+                <!--Fourth column-->
+                <div class="col-md-4 col-lg-3 col-xl-3 text-lightblue">
+                    <h6 class="text-uppercase font-weight-bold text-orange pb-2">CONTACT US</h6>
+                    <p><i class="fa fa-envelope mr-3"></i><a href="mailto:enquiries@metalroofingonline.com.au?Subject=Contact%20Us" target="_top">enquiries@metalroofingonline.com.au</a></p>
+                    <p><i class="fa fa-phone mr-3"></i> 1300 886 944 </p>
+                </div>
+                <!--/.Fourth column-->
+            </div>
+        </div>
+    </div>
+    <!--/.Footer Links-->
+    <!-- Copyright-->
+    <div class="footer-copyright py-3 background-white">
+        <div class="container-fluid" style='font-size:10px; color: lightgrey;'>
+            Copyright © 2018 Metal Roofing Online. All rights reserved
+        </div>
+    </div>
+    <!--/.Copyright -->
+    </div>
+</footer>
+<script>
+    function goto_cart() {
+        var email = prompt("Please enter the email you used for shopping cart.", "Enter email");
+        if (email != null) {
+            console.log("ok")
+            window.location.href = `/cart/saved-cart?email=${email}`
+        }
+    }
+</script>
+<!--/.Footer-->

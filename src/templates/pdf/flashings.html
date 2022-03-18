@@ -1,0 +1,185 @@
+{% load static %}
+<style>
+  @page {
+    @frame header_frame {
+      -pdf-frame-content: header_content;
+      left: 50pt; width: 512pt; top: 50pt; height: 500pt;
+    }
+
+    @frame content_frame {
+      left: 50pt; width: 512pt; top: 295pt
+    }
+
+    @frame footer_frame {
+        -pdf-frame-content: footer_content;
+        left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+    }
+  }
+
+
+  h1 {
+    padding-bottom: 50px;
+    display: inline;
+  }
+
+  h3 {
+    display: inline;
+  }
+
+  table {
+    padding-top: 5px;
+    border: 1px solid black;
+    border-collapse: collapse;
+    border-spacing: 0 5px;
+  }
+
+  td {
+    text-align: center;
+    margin-bottom: 100px;
+  }
+
+  ul {
+    margin: 0; /* To remove default bottom margin */
+    padding-left: 0; /* To remove default left padding */
+    padding-top: 5px;
+    list-style-type: none;
+    border-bottom: 1px solid black;
+  }
+
+  div.header {
+    margin-bottom: 15px;
+  }
+
+  div.customer-section {
+    margin-bottom: 15px;
+  }
+
+  table.borderless {
+    border: none;
+  }
+
+  table.customer {
+    padding: 10px;
+  }
+
+  td.left {
+    text-align: left;
+    padding-left: 15px;
+  }
+
+  h1.inline {
+    display: inline;
+  }
+  
+  .footer { 
+    text-align: right;
+  }
+</style>
+<div id="header_content">
+  <div class="header">
+    <table>
+      <tr>
+        <th rowspan="2">
+          <img src="{% static 'img/banner-reduced.jpg' %}" alt="" width="300" />
+          <h6>Email - <u>enquiries@metalroofingonline.com.au</u></h6>
+        </th>
+        <th><h1>CUSTOMER FLASHING ORDER SHEET</h1></th>
+      </tr>
+      <tr>
+        <td><h1>DATE: {% now "jS F Y" %}</h1></td>
+      </tr>
+    </table>
+  </div>
+  <div class="customer-section">
+    <table class="customer">
+      <tr>
+        <td class="left" width="60%">
+          <h1 class="inline">NAME: {{ order.name }}</h1>
+        </td>
+        <td class="left" width="40%">
+          <h1 class="inline">CONTACT NUMBER: {{ order.shipping_address.phone_number }}</h1>
+        </td>
+      </tr>
+      <tr>
+        <td class="left" width="60%">
+          <h1 class="inline">EMAIL: {{ order.billing_profile.email }}</h1>
+        </td>
+        <td class="left" width="40%">
+          <h1 class="inline">ORDER: {{ order.order_id }} </h1>
+        </td>
+      </tr>
+      <tr>
+        <td class="left" colspan="2">
+          <h1 class="inline">DELIVERY ADDRESS: {{ order.shipping_address_final }}</h1>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div id="footer_content">
+  <div class="footer">
+    Page <pdf:pagenumber> of <pdf:pagecount>
+  </div> 
+</div>
+
+<div class="table-area">
+  <table>
+    {% for key, dicts in lists.items %}
+    <tr>
+      {% with value=dicts|first %} {% if order.shipping_address.State == 'NSW'%}
+      <th width="40%"><h1>{{ value.product.nsw_supplier_title }}</h1></th>
+      {% elif order.shipping_address.State == 'QLD' %}
+      <th width="40%"><h1>{{ value.product.qld_supplier_title }}</h1></th>
+      {% elif order.shipping_address.State == 'WA'%}
+      <th width="40%"><h1>{{ value.product.nsw_supplier_title }}</h1></th>
+      {% else %}
+      <th width="40%"><h1>{{ value.product.vic_supplier_title }}</h1></th>
+      {% endif %}
+      <th width="30%"><h1>Colour</h1></th>
+      <th width="10%"><h1>Qty</h1></th>
+      <th width="20%"><h1>Length</h1></th>
+      {% endwith %}
+    </tr>
+    <tr>
+      {% with value=dicts|first %}
+      <td valign="top" style="padding: 10px">
+        <img
+          class="card-img-top margin-bottom"
+          src="{{ value.product.imageoption_set.first.option.image.url }}"
+          alt="{{ value.product.title }} logo"
+          width="225"
+          height="225"
+        />
+      </td>
+      {% endwith %}
+      <td valign="top">
+        <li>
+          {% for value in dicts %}
+          <ul>
+            <h3>{{ value.colour }}</h3>
+          </ul>
+          {% endfor %}
+        </li>
+      </td>
+      <td valign="top">
+        <li>
+          {% for value in dicts %}
+          <ul>
+            <h3>{{ value.quantity }}</h3>
+          </ul>
+          {% endfor %}
+        </li>
+      </td>
+      <td valign="top">
+        <li>
+          {% for value in dicts %}
+          <ul>
+            <h3>{{ value.length }}</h3>
+          </ul>
+          {% endfor %}
+        </li>
+      </td>
+      {% endfor %}
+    </tr>
+  </table>
+</div>

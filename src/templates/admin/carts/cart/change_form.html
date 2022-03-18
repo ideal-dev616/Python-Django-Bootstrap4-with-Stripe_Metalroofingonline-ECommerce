@@ -1,0 +1,15 @@
+<!-- change_form.html -->
+
+{% extends "admin/change_form.html" %}
+{% load admin_list i18n cache %}
+{% block submit_buttons_bottom %}
+{{ block.super }}
+<style>
+
+textarea {
+  width: 200px !important;
+}
+</style>
+
+{% endblock %}
+

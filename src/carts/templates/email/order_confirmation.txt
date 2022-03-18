@@ -1,0 +1,14 @@
+Order #{{orderobj.order_id}} Confirmed!
+Thank you, your order has been received.
+Our team will work behind the scenes to get this to you as soon as possible.
+
+{% for item in order_obj.orderitem_set.all %}
+    {% if order_obj.shipping_address.state == 'QLD' %}
+    Item: {{item.product.qld_title}}
+    {% endif %}
+    {% if order_obj.shipping_address.state == 'NSW' or oder_obj.shipping_address.state == 'ACT' %}
+    Item: {{item.product.nsw_title}}
+    {% else %}
+    Item: {{item.product.vic_title}}
+    {% endif %}
+{% endfor %}

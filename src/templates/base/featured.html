@@ -1,0 +1,38 @@
+<h3 class='text-center mt-5'>Best Sellers</h3>
+<hr class="home-page-underline">
+<div class="container-fluid" style="padding:2.5px;">
+  <div class="row mb-4">
+    {% for instance in featured %}
+      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-1">
+        <a href="{{ instance.get_absolute_url }}" class="hyperlink-inherit" style="display: inline-block">
+          <img class="card-img-top" src="{{ instance.imageoption_set.first.option.image.url }}" alt="{{ instance.title }} logo" style="height: 300px;">
+          <!--</a>
+          <a class="hyperlink-inherit" href="{{ instance.get_absolute_url }}">-->
+          <div class="card-body no-padding-card" style="text-align: center">
+            <div class='row' style="font-weight: bold; font-size: 12.5px; display: inline-block">
+              {% if request.session.state_selected == 'ACT' %}
+              {{ instance.nsw_title|upper|truncatechars:33}}
+              {% elif request.session.state_selected == 'NSW' %}
+              {{ instance.nsw_title|upper|truncatechars:33}}
+              {% elif request.session.state_selected == 'NT' %}
+              {{ instance.vic_title|upper|truncatechars:33}}
+              {% elif request.session.state_selected == 'QLD' %}
+              {{ instance.qld_title|upper|truncatechars:33}}
+              {% elif request.session.state_selected == 'SA' %}
+              {{ instance.vic_title|upper|truncatechars:33}}
+              {% elif request.session.state_selected == 'TAS' %}
+              {{ instance.vic_title|upper|truncatechars:33}}
+              {% elif request.session.state_selected == 'VIC' %}
+              {{ instance.vic_title|upper|truncatechars:33 }}
+              {% elif request.session.state_selected == 'WA' %}
+              {{ instance.vic_title|upper|truncatechars:33 }}
+              {% elif not request.session.state_selected %}
+              {{ instance.vic_title|upper|truncatechars:33}}
+              {% endif %}
+            </div>
+          </div>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+</div>

@@ -1,0 +1,34 @@
+{% extends "base.html" %} {% load custom_tags %} {% block content %} {% load static %}
+<div class='container my-4'>
+    <div class='col-lg-4 col-md-8 cold-sm-12 col-centered pb-5'>
+        <form class='login' method='POST'> {% csrf_token %}
+            <h1 class="h3 mb-3 font-weight-normal">Sign In</h1>
+            <hr>
+            <div class="form-label-group border-square-blue">
+                {{ form.email|addcss:"class:form-control, placeholder:Email Address" }}
+                <label for='id_email'>Email Address</label>
+            </div>
+            {{ form.email.errors }}
+            <div class="form-label-group border-square-blue">
+                {{ form.password|addcss:"class:form-control, placeholder:Email Address" }}
+                <label for='id_password'>Password</label>
+            </div>
+            {{ form.email.errors }}
+
+            {% autoescape off %} {{ form.non_field_errors.as_text|cut:"* " }} {{ form.email.errors.as_text|cut:"* " }} {{ form.password.errors.as_text|cut:"* " }} {% endautoescape %}
+            <hr/>
+            <button style='font-size:16px;' type='submit' class='btn background-orange text-white btn-lg btn-block'>SIGN IN</button>
+        </form>
+        <div class='row'>
+            <div class='col text-center mt-2'>
+                Need an account? <a href="/register/">Register Here</a>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col text-center mt-2'>
+                <a href="/accounts/password/reset/">Forgot Password?</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

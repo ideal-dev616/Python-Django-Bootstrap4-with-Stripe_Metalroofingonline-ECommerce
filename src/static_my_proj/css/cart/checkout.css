@@ -1,0 +1,279 @@
+.padding {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+#card-errors {
+  color: red;
+}
+
+.delivery-checkbox {
+  margin-left: 15px;
+}
+.delivery-label {
+  margin-left: 25px;
+}
+
+.form-check {
+  margin-bottom: 0px !important;
+}
+
+.delivery-options {
+  border: 1px solid #ced4da;
+  padding: 15px;
+  font-size: 16px;
+}
+
+#datepicker {
+  font-size: 16px;
+}
+
+.datepicker.datepicker-inline {
+  width: inherit !important;
+}
+
+.table-condensed {
+  margin: auto;
+  border-collapse: separate;
+  width: 100%;
+  height: 380px;
+}
+
+.table-condensed td {
+  padding: 5px !important;
+}
+
+.table-condensed th {
+  padding: 10px !important;
+}
+
+@media screen and (max-width: 500px) {
+  .table-condensed {
+    margin: auto;
+    border-collapse: separate;
+    width: 100%;
+  }
+  .table-condensed td {
+    padding: 2px !important;
+  }
+  .table-condensed th {
+    padding: 5px !important;
+  }
+}
+
+.active.day {
+  background: #BFFCC6 !important;
+}
+
+.old.disabled.disabled-date.day {
+  background: #FFF;
+  color: #F5F5F5;
+  border-radius: 0px;
+}
+
+.old.disabled.disabled-date.day:hover {
+  background: #FFF !important;
+}
+
+.disabled.disabled-date.day:hover {
+  background: #FFBEBC !important;
+}
+
+.disabled.day {
+  color: #F5F5F5 !important;
+}
+
+.disabled.day:hover {
+  color: #F5F5F5 !important;
+  background: #FFF !important;
+}
+
+.old.disabled.day {
+  background: #FFF;
+  color: #F5F5F5;
+  border-radius: 0px;
+}
+
+.day {
+  background: #DBFFD6;
+  border-radius: 0px !important;
+}
+
+.day:hover {
+  background: #BFFCC6 !important;
+}
+
+.disabled.disabled-date.day {
+  background: #FFBEBC;
+  border-radius: 0px;
+}
+
+.right-inner-addon {
+  position: relative;
+}
+
+.right-inner-addon input {
+  padding-right: 30px;
+}
+
+.right-inner-addon i {
+  position: absolute;
+  right: 0px;
+  padding: 10px 12px;
+  pointer-events: none;
+}
+
+.checkout-button {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: #ee902d;
+  border-radius: 0px;
+  color: white;
+}
+
+.checkout-button:hover {
+  cursor: pointer;
+}
+
+.billing-button {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: #639fff;
+  border-radius: 0px;
+  color: white;
+}
+
+.billing-button:hover {
+  cursor: pointer;
+}
+
+.delivery-type-btn {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: #639fff;
+  border-radius: 0px;
+  color: white;
+}
+
+.delivery-type-btn:hover {
+  cursor: pointer;
+}
+
+.delivery-type-unselected {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: #a0c4ff;
+  border-radius: 0px;
+  color: white;
+}
+
+.delivery-type-unselected:hover {
+  cursor: pointer;
+}
+
+.checkout-summary {
+  background-color: #222426;
+  color: white;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  font-size: 13px;
+}
+
+.testimonial-header {
+  font-size: 16px;
+}
+
+.testimonial-text {
+  font-size: 13px;
+}
+
+.delivery-form {
+  font-size: 14px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.display-inline {
+  display: inline;
+}
+
+.form-control {
+  padding: 15px 12px 15px 22px;
+  font-size: 14px;
+}
+
+.themed-grid-col-selected {
+  color: #ee902d !important;
+  border-top: 1px solid #f2f5f9 !important;
+  border-left: 1px solid #f2f5f9 !important;
+  border-right: 1px solid #f2f5f9 !important;
+  border-bottom: 5px solid #ee902d !important;
+}
+
+.themed-grid-col {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border: 1px solid #f2f5f9;
+  height: 50px;
+}
+
+.themed-grid-col-img {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border: 1px solid #f2f5f9;
+  margin: auto;
+  display: block;
+  height: 50px;
+}
+
+.themed-grid-col-img img {
+  max-height: 100%;
+}
+
+.color-inherit {
+  color: inherit;
+}
+
+.border-bottom-grey {
+  border-bottom: 1px solid #f2f5f9;
+}
+
+.checkout-header {
+  font-size: 1rem;
+}
+
+
+/* STRIPE */
+/**
+ * The CSS shown here will not be introduced in the Quickstart guide, but shows
+ * how you can use CSS to style your Element's container.
+ */
+
+.StripeElement {
+  box-sizing: border-box;
+
+  height: 50px;
+  width: 100%;
+
+  padding: 15px 15px 15px 15px;
+
+  border: 1px solid #ced4da;
+  border-radius: 0px;
+  background-color: white;
+
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+  border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}

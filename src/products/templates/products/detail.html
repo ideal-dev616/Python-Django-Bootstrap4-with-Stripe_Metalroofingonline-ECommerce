@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+{% load static %}
+  {% block content %}
+    {% url 'products:list' as product_list_url %}
+    <!-- ROOFING IRON -->
+    {% url 'products:roofing-iron' as product_roofing_iron %}
+    <!-- RAINWATER GOODS -->
+    {% url 'products:rainwater-goods' as product_rainwater_goods %}
+    {% url 'products:guttering' as product_guttering %}
+    {% url 'products:fascia' as product_fascia %}
+    {% url 'products:downpipes' as product_downpipes %}
+    <!-- FLASHINGS -->
+    {% url 'products:flashings' as product_flashings %}
+    {% url 'products:ridges' as product_ridges %}
+    {% url 'products:valleys' as product_valleys %}
+    {% url 'products:barge-cappings' as product_barge_cappings %}
+    {% url 'products:aprons' as product_aprons %}
+    {% url 'products:box-gutters' as product_box_gutters %}
+    {% url 'products:flat-sheet' as product_flat_sheet %}
+    {% url 'products:window-flashings' as product_window_flashings %}
+    <!-- POLYCARBONATE -->
+    {% url 'products:polycarbonate' as product_polycarbonate %}
+    <!-- INSULATION -->
+    {% url 'products:insulation' as product_insulation %}
+    <!-- ACCESSORIES -->
+    {% url 'products:accessories' as product_accessories %}
+    {% url 'products:roofing-fasteners' as product_roofing_fasteners %}
+    {% url 'products:gutter-guard' as product_gutter_guard %}
+    {% url 'products:foam-strips' as product_foam_strips %}
+    {% url 'products:roofing-tools' as product_roofing_tools %}
+    {% url 'products:downpipe-accessories' as product_downpipe_accessories %}
+    {% url 'products:fascia-accessories' as product_fascia_accessories %}
+    {% url 'products:adhesive-products' as product_adhesive_products %}
+
+
+    {% if request.session.state_selected == 'WA' and object.postage is False or request.session.state_selected == 'SA' and object.postage is False or request.session.state_selected == 'NT' and object.postage is False %}
+      <div class='row my-5'>
+        <div class='col mr-2 ml-2 text-center'>
+          <!-- {{ request.session.state_selected }}
+          {{ object.postage }} -->
+          <h1>Sorry, we are unable to supply this product to your location. We are always working on new delivery areas.</h1>
+        </div>
+      </div>
+    {% else %}
+  <!-- BREADCRUMBS -->
+    <div class='container'>
+      <ol class="breadcrumb mt-3">
+        <li class="breadcrumb-item"><a class="text-blue" href="/">HOME</a></li>
+        <li class="breadcrumb-item"><a class="text-blue" href="/products/">PRODUCTS</a></li>
+
+        {% if object.categoryoption_set.first.option|cut:" " == "RoofingIron" %}
+          <li class="breadcrumb-item">
+          <a class='text-blue' href="{{ product_roofing_iron }}">ROOFING IRON</a></li>
+        {% endif %}
+
+        <!-- Rainwater Goods -->
+        {% if object.categoryoption_set.first.option|cut:" " == "RainwaterGoods" %}
+          <li class="breadcrumb-item">
+          <a class="text-blue" href="{{ product_rainwater_goods }}">RAINWATER GOODS</a></li>
+        {% endif %}
+
+        {% for item in object.categoryoption_set.all %}
+        {% if item.option|cut:" " == "Guttering" %}
+          <li class="breadcrumb-item">
+          <a class="text-blue" href="{{ product_guttering }}">GUTTERING</a></li>
+        {% endif %}
+
+        {% if item.option|cut:" " == "Fascia" %}
+          <li class="breadcrumb-item">
+          <a class="text-blue" href="{{ product_fascia }}">FASCIA</a></li>
+        {% endif %}
+        {% if item.option|cut:" " == "Downpipes" %}
+          <li class="breadcrumb-item">
+          <a class="text-blue" href="{{ product_downpipes }}">DOWNPIPES</a></li>
+        {% endif %}
+        {% endfor %}
+
+        <!-- Flashings -->
+        {% if object.categoryoption_set.first.option.category == "Flashings" %}
+          <li class="breadcrumb-item">
+          <a class="text-blue" href="{{ product_flashings }}">FLASHINGS</a></li>
+        {% endif %}
+        {% for item in object.categoryoption_set.all %}
+        {% if item.option|cut:" " == "Ridges" %}
+          <li class="breadcrumb-item">
+          <a class="text-blue" href="{{ product_ridges }}">RIDGES</a></li>
+        {% endif %}
+        {% if item.option|cut:" " == "Valleys" %}
+          <li class="breadcrumb-item">
+          <a class="text-blue" href="{{ product_valleys }}">VALLEYS</a></li>
+        {% endif %}
+        {% if item.option|cut:" " == "BargeCapping" %}
+          <li class="breadcrumb-item">
+          <a class="text-blue" href="{{ product_barge_cappings }}">BARGE CAPPING</a></li>
+        {% endif %}
+        {% if item.option|cut:" " == "ApronFlashing" %}
+          <li class="breadcrumb-item">
+          <a class="text-blue" href="{{ product_aprons }}">APRON</a></li>
+        {% endif %}
+        {% if item.option|cut:" " == "FlatSheet" %}
+          <li class="breadcrumb-item">
+          <a class="text-blue" href="{{ product_flat_sheet }}">FLAT SHEET</a></li>
+        {% endif %}
+        {% if item.option|cut:" " == "WindowFlashings" %}
+          <li class="breadcrumb-item">
+          <a class="text-blue" href="{{ product_window_flashings }}">WINDOW FLASHINGS</a></li>
+        {% endif %}
+        {% if item.option|cut:" " == "BoxGutters" %}
+          <li class="breadcrumb-item">
+          <a class="text-blue" href="{{ product_box_gutters }}">BOX GUTTERS</a></li>
+        {% endif %}
+        {% endfor %}
+
+
+        <!-- Polycarbonate -->
+        {% if object.categoryoption_set.first.option|cut:" " == "Polycarbonate" %}
+          <li class="breadcrumb-item">
+          <a class="text-blue" href="{{ product_polycarbonate }}">POLYCARBONATE</a></li>
+        {% if object.categoryoption_set.second.option.exists %}
+          <li class="breadcrumb-item">
+          <a class="text-blue" href="#">{{ object.categoryoption_set.second.option|upper }}</a></li>
+        {% endif %}
+        {% endif %}
+
+        <!-- Insulation -->
+        {% if object.categoryoption_set.first.option|cut:" " == "Insulation" %}
+          <li class="breadcrumb-item">
+          <a class="text-blue" href="{{ product_insulation }}">INSULATION</a></li>
+        {% if object.categoryoption_set.second.option.exists %}
+          <li class="breadcrumb-item">
+          <a class="text-blue" href="#">{{ object.categoryoption_set.second.option|upper }}</a></li>
+        {% endif %}
+        {% endif %}
+
+        <!-- Accessories -->
+        {% if object.categoryoption_set.first.option|cut:" " == "Accessories" %}
+          <li class="breadcrumb-item">
+          <a class="text-blue" href="{{ product_accessories }}">ACCESSORIES</a></li>
+        {% endif %}
+        {% for item in object.categoryoption_set.all %}
+        {% if item.option|cut:" " == "RoofingFasteners" %}
+          <li class="breadcrumb-item">
+          <a class="text-blue" href="{{ product_roofing_fasteners }}">ROOFING FASTENERS</a></li>
+        {% endif %}
+        {% if item.option|cut:" " == "GutterGuard" %}
+          <li class="breadcrumb-item">
+          <a class="text-blue" href="{{ product_gutter_guard }}">GUTTER GUARD</a></li>
+        {% endif %}
+        {% if item.option|cut:" " == "FoamStrips" %}
+          <li class="breadcrumb-item">
+          <a class="text-blue" href="{{ product_foam_strips }}">FOAM STRIPS</a></li>
+        {% endif %}
+        {% if item.option|cut:" " == "RoofingTools" %}
+          <li class="breadcrumb-item">
+          <a class="text-blue" href="{{ product_roofing_tools }}">ROOFING TOOLS</a></li>
+        {% endif %}
+        {% endfor %}
+
+        {% if request.session.state_selected == 'ACT' %}
+          <li class="breadcrumb-item active"><p class='text-orange' style='display:inline'>{{ object.nsw_title }}</p></li>
+        {% elif request.session.state_selected == 'NSW' %}
+          <li class="breadcrumb-item active text-orange"><p class='text-orange' style='display:inline'>{{ object.nsw_title }}</p></li>
+        {% elif request.session.state_selected == 'NT' %}
+          <li class="breadcrumb-item active text-orange"><p class='text-orange' style='display:inline'>{{ object.vic_title }}</p></li>
+        {% elif request.session.state_selected == 'QLD' %}
+          <li class="breadcrumb-item active text-orange"><p class='text-orange' style='display:inline'>{{ object.qld_title }}</p></li>
+        {% elif request.session.state_selected == 'SA' %}
+          <li class="breadcrumb-item active text-orange"><p class='text-orange' style='display:inline'>{{ object.vic_title }}</p></li>
+        {% elif request.session.state_selected == 'TAS' %}
+          <li class="breadcrumb-item active text-orange"><p class='text-orange' style='display:inline'>{{ object.wa_title }}</p></li>
+        {% elif request.session.state_selected == 'VIC' %}
+          <li class="breadcrumb-item active text-orange"><p class='text-orange' style='display:inline'>{{ object.vic_title }}</p></li>
+        {% elif request.session.state_selected == 'WA' %}
+          <li class="breadcrumb-item active text-orange"><p class='text-orange' style='display:inline'>{{ object.vic_title }}</p></li>
+        {% else %}
+          {% if not object.vic_title %}
+            <li class="breadcrumb-item active text-orange"><p class='text-orange' style='display:inline'>ITEM DOES NOT SHIP TO VICTORIA</p></li>
+          {% else %}
+          <li class="breadcrumb-item active text-orange"><p class='text-orange' style='display:inline'>{{ object.vic_title }}</p></li>
+          {% endif %}
+        {% endif %}
+      </ol>
+
+      <!-- PRODUCT DETAILS -->
+      <div class='row mt-3'>
+          <div class='col-lg-4 col-md-12 col-sm-12 pb-2'>
+            <span id='product-url' val='{{ object.get_absolute_url }}' hidden></span>
+            {% if object.imageoption_set.all.count > 1 %}
+              <img id='product-image-url' style='width:100%;' src="{{ object.imageoption_set.first.option.image.url }}" width="50px" alt="{{ object.imageoption_set.first.option.alt}}" hidden>
+              <div class="sp-wrap">
+              {% for image in object.imageoption_set.all %}
+                  <a href="{{ image.option.image.url }}"><img src="{{ image.option.image.url }}" width="50px" alt="{{image.option.alt}}"></a>
+              {% endfor %}
+              </div>
+            {% else %}
+              <img id='product-image-url' style='width:100%;' src="{{ object.imageoption_set.first.option.image.url }}" width="50px" alt="{{ object.imageoption_set.first.option.alt}}">
+            {% endif %}
+          </div>
+          <div class='col-lg-8 col-md-12 col-sm-12 pb-2'>
+              {% include 'products/snippets/update-cart.html' with product=object cart=cart custom_flashings=custom_flashings custom_flashing_below_msgs=custom_flashing_below_msgs%}
+          </div>
+      </div>
+
+      {% if object.accessoryoption_set.first.option.accessory.title %}
+        <div class='container'>
+          <div class="row">
+              <h4 class='my-3 text-blue'>Related Products</h4>
+          </div>
+          <div class="row pb-5">
+                  {% for obj in object.accessoryoption_set.all %}
+                      <div class='col'>
+                        {% include 'products/snippets/card-small.html' with instance=obj.option.accessory %}
+                      </div>
+                  {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+
+{% endblock %}
+
+
+  {% block javascript %}
+    <script src="{% static "js/products/buildLengthSelect.js" %}"></script>
+    <script src="{% static "js/cart/custom_length.js" %}"></script>
+  {% endblock %}

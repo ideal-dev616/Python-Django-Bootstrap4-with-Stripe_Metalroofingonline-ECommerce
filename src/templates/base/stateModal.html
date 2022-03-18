@@ -1,0 +1,87 @@
+<!-- The Modal -->
+<div class="modal" id="selectStateModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Please select State:</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+            <select class='form-control' name="modalDropdownState" id="modalDropdownState" val="{{ request.session.state_selected }}" 
+            style="
+              -webkit-appearance: none;
+              border-radius: 1px !important;
+              box-shadow: -1px 7px 10px -3px orange !important;
+              -webkit-box-shadow: -1px 7px 10px -3px orange !important;
+              position: relative; 
+              text-align: center; 
+              background:none;
+            ">
+                <!-- No state -->
+                {% if not request.session.state_selected %}
+                <option id='SS' value='SS' disabled selected>Select State</option>
+                {% endif %}
+                <!-- ACT -->
+                {% if request.session.state_selected == 'ACT' %}
+                <option id='ACT' value='ACT' selected>A.C.T</option>
+                {% else %}
+                <option id='ACT' value='ACT'>A.C.T</option>
+                {% endif %}
+                <!-- NSW -->
+                {% if request.session.state_selected == 'NSW' %}
+                <option id='NSW' value='NSW' selected>NSW</option>
+                {% else %}
+                <option id='NSW' value='NSW'>NSW</option>
+                {% endif %}
+                <!-- NT -->
+                {% if request.session.state_selected == 'NT' %}
+                <option id='NT' value='NT' selected>NT</option>
+                {% else %}
+                <option id='NT' value='NT'>NT</option>
+                {% endif %}
+                <!-- QLD -->
+                {% if request.session.state_selected == 'QLD' %}
+                <option id='QLD' value='QLD' selected>QLD</option>
+                {% else %}
+                <option id='QLD' value='QLD'>QLD</option>
+                {% endif %}
+                <!-- SA -->
+                {% if request.session.state_selected == 'SA' %}
+                <option id='SA' value='SA' selected>SA</option>
+                {% else %}
+                <option id='SA' value='SA'>SA</option>
+                {% endif %}
+                <!-- TAS -->
+                {% if request.session.state_selected == 'TAS' %}
+                <option id='TAS' value='TAS' selected>TAS</option>
+                {% else %}
+                <option id='TAS' value='TAS'>TAS</option>
+                {% endif %}
+                <!-- VIC -->
+                {% if request.session.state_selected == 'VIC' %}
+                <option id='VIC' value='VIC' selected>VIC</option>
+                {% else %}
+                <option id='VIC' value='VIC'>VIC</option>
+                {% endif %}
+                <!-- WA -->
+                {% if request.session.state_selected == 'WA' %}
+                <option id='WA' value='WA' selected>WA</option>
+                {% else %}
+                <option id='WA' value='WA'>WA</option>
+                {% endif %}
+            </select>
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <span class="mx-5" style="font-size: 20px;">for products in your location</span>
+          <button type="button" class="btn" data-dismiss="modal" style="background-color: orange; color: white;">Close</button>
+        </div>
+  
+      </div>
+    </div>
+</div>

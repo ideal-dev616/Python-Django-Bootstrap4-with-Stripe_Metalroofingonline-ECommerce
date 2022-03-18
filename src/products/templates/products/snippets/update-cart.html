@@ -1,0 +1,444 @@
+{% load static %}
+
+<style>
+
+input.circle {
+  display: none;
+}
+
+.button {
+  display: inline-block;
+  position: relative;
+  width: 30px;
+  height: 30px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.button span {
+  display: block;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background: #eeeeee;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  transition: ease .3s;
+}
+
+label.toggled {
+  border: 1px solid #013e7d;
+  line-height: 1;
+}
+
+.btn:disabled {
+    background: lightgrey;
+}
+
+.button span:hover {
+  padding: 20px;
+}
+
+{% for colour in product.colouroption_set.all %}
+.{{ colour.cleaned_option }} .button span {
+  background: {{ colour.option.hex_value }};
+}
+{% endfor %}
+
+.layer {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: transparent;
+  /*transition: ease .3s;*/
+  z-index: -1;
+}
+
+</style>
+
+<div class="card borderless">
+    <div class="card-body no-padding-margin">
+    <form class='form-product-ajax' method='POST' action='{% url "cart:add" %}' data-endpoint='{% url "cart:add" %}' class="form"> {% csrf_token %}
+        <input type='hidden' name='product_id' value='{{ product.id }}' />
+            <input type='hidden' name='state_selected' value='VIC' />
+            {% if request.session.state_selected == 'ACT' %}
+                <h1 class='title text-blue' name='title' id='title'> {{ object.nsw_title }} </h1>
+                <input type='hidden' name='price' id='price' value='{{ product.nsw_price }}' />
+                <input type='hidden' name='price_per_mm' id='price_per_mm' value='{{ product.nsw_price_per_mm }}' />
+                <input type='hidden' name='zincalume_discount' id='zincalume_discount' value='{{ product.zincalume_discount_new_south_wales }}'>
+            {% elif request.session.state_selected == 'NSW' %}
+                <h1 class='title text-blue' name='title' id='title'> {{ object.nsw_title }} </h1>
+                <input type='hidden' name='price' id='price' value='{{ product.nsw_price }}' />
+                <input type='hidden' name='price_per_mm' id='price_per_mm' value='{{ product.nsw_price_per_mm }}' />
+                <input type='hidden' name='zincalume_discount' id='zincalume_discount' value='{{ product.zincalume_discount_new_south_wales }}'>
+            {% elif request.session.state_selected == 'NT' %}
+                <h1 class='title text-blue' name='title' id='title'> {{ object.vic_title }} </h1>
+                <input type='hidden' name='price' id='price' value='{{ product.vic_price }}' />
+                <input type='hidden' name='price_per_mm' id='price_per_mm' value='{{ product.vic_price_per_mm }}' />
+              <input type='hidden' name='zincalume_discount' id='zincalume_discount' value='{{ product.zincalume_discount_victoria }}'>
+            {% elif request.session.state_selected == 'QLD' %}
+                <h1 class='title text-blue' name='title' id='title'> {{ object.qld_title }} </h1>
+                <input type='hidden' name='price' id='price' value='{{ product.qld_price }}' />
+                <input type='hidden' name='price_per_mm' id='price_per_mm' value='{{ product.qld_price_per_mm }}' />
+                <input type='hidden' name='zincalume_discount' id='zincalume_discount' value='{{ product.zincalume_discount_queensland }}'>
+            {% elif request.session.state_selected == 'SA' %}
+                <h1 class='title text-blue' name='title' id='title'> {{ object.vic_title }} </h1>
+                <input type='hidden' name='price' id='price' value='{{ product.vic_price }}' />
+                <input type='hidden' name='price_per_mm' id='price_per_mm' value='{{ product.vic_price_per_mm }}' />
+                <input type='hidden' name='zincalume_discount' id='zincalume_discount' value='{{ product.zincalume_discount_victoria }}'>
+            {% elif request.session.state_selected == 'TAS' %}
+                <h1 class='title text-blue' name='title' id='title'> {{ object.wa_title }} </h1>
+                <input type='hidden' name='price' id='price' value='{{ product.wa_price }}' />
+                <input type='hidden' name='price_per_mm' id='price_per_mm' value='{{ product.wa_price_per_mm }}' />
+                <input type='hidden' name='zincalume_discount' id='zincalume_discount' value='{{ product.zincalume_discount_wa }}'>
+            {% elif request.session.state_selected == 'VIC' %}
+                <h1 class='title text-blue' name='title' id='title'> {{ object.vic_title }} </h1>
+                <input type='hidden' name='price' id='price' value='{{ product.vic_price }}' />
+                <input type='hidden' name='price_per_mm' id='price_per_mm' value='{{ product.vic_price_per_mm }}' />
+                <input type='hidden' name='zincalume_discount' id='zincalume_discount' value='{{ product.zincalume_discount_victoria }}'>
+            {% elif request.session.state_selected == 'WA' %}
+                <h1 class='title text-blue' name='title' id='title'> {{ object.vic_title }} </h1>
+                <input type='hidden' name='price' id='price' value='{{ product.vic_price }}' />
+                <input type='hidden' name='price_per_mm' id='price_per_mm' value='{{ product.vic_price_per_mm }}' />
+                <input type='hidden' name='zincalume_discount' id='zincalume_discount' value='{{ product.zincalume_discount_victoria }}'>
+            {% else %}
+                <h1 class='title text-blue' name='title' id='title'>Please select a state in the header.</h1>
+                <input type='hidden' name='price' id='price' value='{{ product.vic_price }}' />
+                <input type='hidden' name='price_per_mm' id='price_per_mm' value='{{ product.vic_price_per_mm }}' />
+                <input type='hidden' name='zincalume_discount' id='zincalume_discount' value='{{ product.zincalume_discount_victoria }}'>
+            {% endif %}
+            <hr>
+
+            <!-- PRICE -->
+        <div class='row'>
+          <div class='col'>
+                    {% if request.session.state_selected == 'ACT' %}
+                        <h2 class="text-blue" name='display_price' id='display_price' value='{{ product.nsw_price }}' style='display: inline'>${{product.nsw_price|floatformat:2}}</h1>
+                        <h6 class='ml-2' style='display: inline'>*GST Included</h6>
+                    {% elif request.session.state_selected == 'NSW' %}
+                        <h2 class="text-blue" name='display_price' id='display_price' value='{{ product.nsw_price }}' style='display: inline'>${{ product.nsw_price|floatformat:2 }}</h1>
+                        <h6 class='ml-2' style='display: inline'>*GST Included</h6>
+                    {% elif request.session.state_selected == 'NT' %}
+                        <h2 class="text-blue" name='display_price' id='display_price' value='{{ product.vic_price }}' style='display: inline'>${{ product.nsw_price|floatformat:2 }}</h1>
+                        <h6 class='ml-2' style='display: inline'>*GST Included</h6>
+                    {% elif request.session.state_selected == 'QLD' %}
+                        <h2 class="text-blue" name='display_price' id='display_price' value='{{ product.qld_price }}' style='display: inline'>${{ product.qld_price|floatformat:2 }}</h1>
+                        <h6 class='ml-2' style='display: inline'>*GST Included</h6>
+                    {% elif request.session.state_selected == 'SA' %}
+                        <h2 class="text-blue" name='display_price' id='display_price' value='{{ product.vic_price }}' style='display: inline'>${{ product.vic_price|floatformat:2 }}</h1>
+                        <h6 class='ml-2' style='display: inline'>*GST Included</h6>
+                    {% elif request.session.state_selected == 'TAS' %}
+                        <h2 class="text-blue" name='display_price' id='display_price' value='{{ product.wa_price }}' style='display: inline'>${{ product.wa_price|floatformat:2 }}</h1>
+                        <h6 class='ml-2' style='display: inline'>*GST Included</h6>
+                    {% elif request.session.state_selected == 'VIC' %}
+                        <h2 class="text-blue" name='display_price' id='display_price' value='{{ product.vic_price }}' style='display: inline'>${{ product.vic_price|floatformat:2 }}</h1>
+                        <h6 class='ml-2' style='display: inline'>*GST Included</h6>
+                    {% elif request.session.state_selected == 'WA' %}
+                        <h2 class="text-blue" name='display_price' id='display_price' value='{{ product.vic_price }}' style='display: inline'>${{ product.vic_price|floatformat:2 }}</h1>
+                        <h6 class='ml-2' style='display: inline'>*GST Included</h6>
+                    {% else %}
+                        <h2 class="text-blue" name='display_price' id='display_price' value='0'>Please select a state in the header.</h1>
+                    {% endif %}
+                    <br/>
+            <img class='mr-1 mt-2' src='{% static 'img/paypal.png' %}' height='20px'>
+                    <img class='mr-1 mt-2' src='{% static 'img/mastercard.png' %}' height='30px'>
+                    <img class='mt-2' src='{% static 'img/visa.png' %}' height='20px'>
+          </div>
+        </div>
+
+        <span class='submit-span'>
+
+                <!-- COLOURS -->
+                {% if product.colouroption_set.all.exists %}
+                <div class='row'>
+                    <div class="col mt-3 ml-1 mb-2 text-blue">
+                      COLOUR SELECTED:
+                      <select class="border-square-blue text-blue" id='colour-select'>
+                        <option selected>Select Colour</option>
+                        {% for colour in product.colouroption_set.all %}
+                          <option value='{{ colour.option }}'>{{colour.option}}</option>
+                        {% endfor %}
+                      </select>
+                      <input id='colour' type='hidden' name='colour' val=''/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 ml-1">
+                    {% for colour in product.colouroption_set.all %}
+                        <label class="{{ colour.cleaned_option }}">
+                          <input class='circle' type="radio" name="colourPrice" value="{{ colour.option.additional_cost }}" id='{{ colour.option }}' colour_name="{{ colour.cleaned_option }}">
+                          <div class="layer"></div>
+                          <div class="button"><span></span></div>
+                        </label>
+                    {% endfor %}
+                  </div>
+                </div>
+
+                {% for colour in product.colouroption_set.all %}
+                    <input name='colour_cost_{{ colour.option|cut:" " }}' id='colour_cost_{{ colour.option|cut:" " }}' value='{{ colour.option.additional_cost }}' hidden/>
+                {% endfor %}
+
+                <!-- CUSTOM COLOUR VIDEO -->
+                  <div class="card borderless">
+                    <div class="background-white border-top-LightSteelBlue border-bottom-LightSteelBlue">
+                      <h5 class="mb-0">
+                        <button class="btn btn-block btn-link text-left" type="button" type="button" data-toggle="collapse" data-target="#collapseColours" aria-expanded="false" aria-controls="collapseTwo">
+                          <div class='row'>
+                                <div class='col-10 pl-5 pt-2 text-blue'>
+                                    <p class='text-left' style='display: inline'><i class="fab fa-youtube mr-3"></i>VIDEO OF COLOURS</p>
+                                </div>
+                                <div class='col-1 text-right pt-2 pb-2 text-blue'>
+                                    <p style='display: inline'><i class="fas fa-angle-down text-orange"></i></p>
+                                </div>
+                            </div>
+                        </button>
+                      </h5>
+                    </div>
+                    <div id="collapseColours" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                      <div class="card-body">
+                        <div class="video-wrap">
+                          <div class="video-container">
+                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/cEdt_0bYhSc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+          {% endif %}
+
+                <!-- ADDITIONAL -->
+                {% if product.additionaldropdownoption_set.all.exists %}
+                <div class="form-group row">
+                  <label for="additional-input" class="col-12 col-form-label text-blue">{{ product.additional_dropdown_title }}</label>
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <select class="form-control border-square-blue text-center" name="additional" id='additionaldropdown' required>
+                        <option value="404" disabled selected>Choose Option</option>
+                        {% for item in product.additionaldropdownoption_set.all %}
+                            <option data-discount="{{ item.option.zincalume_discount }}" id="{{ item.option.additional_cost }}" value='{{ item.option }}'>{{ item.option }}</option>
+                        {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                {% endif %}
+
+                <!-- LENGTH -->
+                {% comment %} Length values {% endcomment %}
+                <input type='hidden' value="{{product.max_length}}" id="max_length"/>
+                <input type='hidden' value="{{product.min_length}}" id="min_length"/>
+                <input type='hidden' value="{{product.length_steps}}" id="length_steps"/>
+                {% comment %} End length values {% endcomment %}
+
+                <div class="form-group row"> 
+                    {% if product.max_length > 0 %}
+                        <label for="quantity-number-input" class="col-4 col-form-label text-blue">QTY</label>
+                        <label for="length-input" class="col-8 col-form-label text-blue">
+                            SELECT LENGTH (<span class="custom" style="display: none; color: red">MILLIMETRES</span><span class="defined" style="display: inline">METRES</span>)
+                        </label>
+                    {% else %}
+                        <label for="quantity-number-input" class="col-12 col-form-label text-blue">QTY</label>
+                    {% endif %}
+
+                    <div class="col-4">
+                        <input class="form-control border-square-blue text-center" name="quantity" type="number" value="1" min="1" max="1000" id="quantity">
+                    </div>
+
+                    {% if product.max_length > 0 %}
+                    <div class='col-8'>
+                        <div id="length-div">
+                            <select class="form-control border-square-blue text-center defined" name="length" id='length' required>
+                                <option value="404" disabled selected>Choose Length</option>
+                            </select>
+                        </div>
+
+                        <div class="accordion" id="accordionExample">
+                        {% if product.categoryoption_set.first.option.category == "Roofing Iron" or product.categoryoption_set.first.option.category == "Rainwater Goods" %}
+                         {% if product.categoryoption_set.count <= 1 %}
+                            <div class="card borderless">
+                                <div class="background-white border-top-LightSteelBlue border-bottom-LightSteelBlue" >
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-block btn-link text-left" type="button" id="custom-length" style='padding-left:0px;cursor: pointer;'>
+                                            <p class='text-left defined' style='display: inline;color:red;'>CHOOSE CUSTOM LENGTH</p>
+                                            <p class='text-left custom' style='display: none;color:red;'>CHOOSE DEFINED LENGTH</p>
+                                        </button>
+                                    </h5>
+                                </div>
+                            </div>
+                          {% endif %}
+                         {% if product.categoryoption_set.count > 1 %}
+                          {% for category in product.categoryoption_set.all|slice:"1:2" %}
+                            {% if category.option.category != 'Downpipes' %}
+                              <div class="card borderless">
+                                  <div class="background-white border-top-LightSteelBlue border-bottom-LightSteelBlue" >
+                                      <h5 class="mb-0">
+                                          <button class="btn btn-block btn-link text-left" type="button" id="custom-length" style='padding-left:0px;cursor: pointer;'>
+                                              <p class='text-left defined' style='display: inline;'>CHOOSE CUSTOM LENGTH</p>
+                                              <p class='text-left custom' style='display: none;'>CHOOSE DEFINED LENGTH</p>
+                                          </button>
+                                      </h5>
+                                  </div>
+                              </div>
+                            {% endif %}
+                          {% endfor %}
+                         {% endif %}
+                        {% endif %}
+                        {% if product.categoryoption_set.first.option.category == 'Flashings' %}
+                            <div class="card borderless">
+                                <!-- CUSTOM FLASHING SHEET -->
+                                <div class="background-white border-top-LightSteelBlue border-bottom-LightSteelBlue" id="headingOne">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-block btn-link text-left" type="button" data-toggle="collapse" data-target="#collapseFlashings" aria-expanded="true" aria-controls="collapseOne" style='padding-left:0px;'>
+                                            <div class='row'>
+                                                <div class='col-11 mt-2 text-blue'>
+                                                    <p class='text-left' style='display: inline'>CUSTOM FLASHINGS</p>
+                                                </div>
+                                                <div class='col-1 mt-2 text-blue'>
+                                                    <p style='display: inline'><i class="fas fa-angle-down text-orange"></i></p>
+                                                </div>
+                                            </div>
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="collapseFlashings" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        {% for item in custom_flashings %}
+                                            <a href="/media/{{ item.file.name }}" target='_blank' class="d-block">{{ item.title }}</a>
+                                        {% endfor %}
+                                        <!-- <a href="{% static 'img/FlashingOrderForm.pdf' %}" target='_blank'>Custom Flashings Form</a>
+                                        <br/><a href="{% static 'img/SumpTrayFlashingForm.pdf' %}" target='_blank'>Custom Sump Tray Flashings Form</a>
+                                        <br/><a href="{% static 'img/RainheadFlashingForm.pdf' %}" target='_blank'>Custom Rainhead Flashings Form</a> -->
+                                        <hr>
+                                      
+                                        {% for item in custom_flashing_below_msgs %}
+                                            {{ item.title }}
+                                        {% endfor %}
+                                        <!-- Please email completed form to enquiries@metalroofingonline.com.au or contact us on 1300 886 944 when ordering custom flashings -->
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                </div>
+
+                <br>
+                <!-- From here by Damian -->
+                {% if product.lengthoption_set.all.exists %}
+                <!-- Custom Length -->
+                <input type="hidden" name="custom_length" id="custom_length" value="[]">
+                {% else %}
+                <input type="hidden" name="custom_length" id="custom_length" value="[{'length':0.123,'quantity':'1'}]">
+                {% endif %}
+
+                <!-- Submit button -->
+                <div class="form-group row pt-2">
+                    <div class="col mb-1">
+                      <button type='submit' id='submit-detail' class='btn background-orange text-white btn-lg btn-block'>
+                          Add to cart
+                      </button>
+                    </div>
+                </div>
+        </span>
+
+            <!-- Check postcode delivery cost -->
+            <div class="card border-square-orange mb-1">
+                <div class="card-body">
+                    <div class='row'>
+                      <div class='col'>
+                        <div class="form-group">
+                          <label for="input_post_code" class="sr-only">Post Code</label>
+                          <input type="text" class="form-control" id="input_post_code" placeholder="Please enter post code">
+                        </div>
+                      </div>
+                      <div class='col text-align-left'>
+                        <button id='post_code_button' type='button' class="btn btn-primary background-blue border-square-blue">Check Delivery</button>
+                      </div>
+                    </div>
+                  <p id='post_code_response' hidden></p>
+                  {% if object.postage %}
+                    <i class="fas fa-mail-bulk mr-1" id='postage_allowed'></i>This Item can be shipped via standard or express postage, or added to your roofing order.
+                    <br/>$17.99 Standard or $25.99 Express shipping applies if all items in your order meet this criteria.
+                  {% endif %}
+                </div>
+            </div>
+
+            <!-- DESCRIPTION -->
+            <div class='row'>
+                <div class='col'>
+                    {% autoescape off %}
+                        {{ object.description|safe }}
+                    {% endautoescape %}
+                </div>
+            </div>
+    </form>
+
+        <!-- ACCORDIAN AT BOTTOM FOR DESCRIPTION/YOUTUBE/ETC -->
+        <div class="accordion" id="accordionExample">
+
+        <!-- MORE INFO -->
+        {% if product.more_info %}
+          <div class="card borderless">
+            <!-- DESCRIPTION -->
+            <div class="background-white border-top-LightSteelBlue border-bottom-LightSteelBlue" id="headingOne">
+              <h5 class="mb-0">
+                <button class="btn btn-block btn-link text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <div class='row'>
+                        <div class='col-10 pl-5 pt-2 text-blue'>
+                            <p class='text-left' style='display: inline'>MORE INFORMATION</p>
+                        </div>
+                        <div class='col-1 text-right pt-2 pb-2 text-blue'>
+                            <p style='display: inline'><i class="fas fa-angle-down text-orange"></i></p>
+                        </div>
+                    </div>
+                </button>
+              </h5>
+            </div>
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+              <div class="card-body">
+                {% autoescape off %}{{ object.more_info|safe }}{% endautoescape %}
+              </div>
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- YOUTUBE -->
+        {% if product.youtube_embed_link %}
+          <div class="card borderless">
+            <div class="background-white border-top-LightSteelBlue border-bottom-LightSteelBlue" id="headingOne" id="headingTwo">
+              <h5 class="mb-0">
+                <button class="btn btn-block btn-link text-left" type="button" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  <div class='row'>
+                        <div class='col-10 pl-5 pt-2 text-blue'>
+                            <p class='text-left' style='display: inline'><i class="fab fa-youtube mr-3"></i>YOUTUBE</p>
+                        </div>
+                        <div class='col-1 text-right pt-2 pb-2 text-blue'>
+                            <p style='display: inline'><i class="fas fa-angle-down text-orange"></i></p>
+                        </div>
+                    </div>
+                </button>
+              </h5>
+            </div>
+            <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionExample">
+              <div class="card-body">
+                <div class="video-wrap">
+                  <div class="video-container">
+                    {{ object.youtube_embed_link|safe }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+        </div>
+  </div>
+</div>

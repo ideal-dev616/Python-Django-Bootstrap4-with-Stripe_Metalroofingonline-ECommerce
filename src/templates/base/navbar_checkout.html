@@ -1,0 +1,443 @@
+{% url 'home' as home_url %} 
+{% url 'contact' as contact_url %} 
+{% url 'products:list' as product_list_url %} 
+{% url 'products:roofing-iron' as product_roofing_iron %} 
+{% url 'products:rainwater-goods' as product_rainwater_goods %} 
+{% url 'products:flashings' as product_flashings %} 
+{% url 'products:polycarbonate' as product_polycarbonate %} 
+{% url 'products:insulation' as product_insulation %} 
+{% url 'products:accessories' as product_accessories %} 
+{% url 'login' as login_url %} 
+{% url 'logout' as logout_url %} 
+{% url 'register' as register_url %} 
+{% url 'search:query' as search_url %} 
+{% url 'account:home' as account_url %} 
+{% url 'cart:home' as cart_url %}
+<!-- ROOFING IRON -->
+{% url 'products:roofing-iron' as product_roofing_iron %}
+{% url 'products:colorbond' as product_colorbond %} 
+{% url 'products:zincalume' as product_zincalume %}
+<!-- RAINWATER GOODS -->
+{% url 'products:rainwater-goods' as product_rainwater_goods %} 
+{% url 'products:guttering' as product_guttering %}
+{% url 'products:quad' as product_quad %}
+{% url 'products:sheerline' as product_sheerline %}
+{% url 'products:trimline' as product_trimline %}
+{% url 'products:half_round' as product_half_round %} 
+ 
+{% url 'products:fascia' as product_fascia %} 
+{% url 'products:downpipes' as product_downpipes %}
+<!-- FLASHINGS -->
+{% url 'products:flashings' as product_flashings %} 
+{% url 'products:ridges' as product_ridges %} 
+{% url 'products:valleys' as product_valleys %} 
+{% url 'products:barge-cappings' as product_barge_cappings %} 
+{% url 'products:aprons' as product_aprons %} 
+{% url 'products:box-gutters' as product_box_gutters %} 
+{% url 'products:flat-sheet' as product_flat_sheet %} 
+{% url 'products:window-flashings' as product_window_flashings %}
+<!-- POLYCARBONATE -->
+{% url 'products:polycarbonate' as product_polycarbonate %}
+<!-- INSULATION -->
+{% url 'products:insulation' as product_insulation %}
+<!-- ACCESSORIES -->
+{% url 'products:accessories' as product_accessories %} 
+{% url 'products:roofing-fasteners' as product_roofing_fasteners %} 
+{% url 'products:gutter-guard' as product_gutter_guard %} 
+{% url 'products:foam-strips' as product_foam_strips %} 
+{% url 'products:roofing-tools' as product_roofing_tools %} 
+{% url 'products:downpipe-accessories' as product_downpipe_accessories %} 
+{% url 'products:fascia-accessories' as product_fascia_accessories %} 
+{% url 'products:adhesive-products' as product_adhesive_products %} 
+{% load static %} 
+{% load get_header_message_checkout from custom_tags %}
+
+<div id="mySidenav" class="onlymobile sidenav w3-sidebar w3-bar-block mobie_color_header w3-card">
+  <a href="javascript:void(0)" class="mobile_sidebar_text closebtn" onclick="closeNav()">&times;</a>
+  <!-- Login / Phone Icons -->
+  <div class="icons mt-2">
+    <a class="mobile_sidebar_text" href="{{ login_url }}"><i class="fas fa-user mr-1"></i>Login</a>
+  </div>
+  <a href="{{ home_url }}" class="mobile_sidebar_text w3-bar-item w3-button sidebar-border-top">HOME</a>
+  <span class="sr-only">(current)</span>
+
+  <div onclick="myFunction0()" class="w3-dropdown-click">
+    <button class="mobile_sidebar_text w3-button sidebar-border-top">
+      ROOFING IRON
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div id="Dropdown0" class="w3-dropdown-content w3-bar-block">
+      <a href="{{ product_roofing_iron }}" class="w3-bar-item w3-button">ALL</a>
+      <a href="{{ product_colorbond }}" class="w3-bar-item w3-button">COLORBOND®</a>
+      <a href="{{ product_zincalume }}" class="w3-bar-item w3-button">ZINCALUME®</a>
+    </div>
+  </div>
+
+  <div onclick="myFunction1()" class="w3-dropdown-click">
+    <button class="mobile_sidebar_text w3-button sidebar-border-top">
+      RAINWATER GOODS
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div id="Dropdown1" class="w3-dropdown-content w3-bar-block">
+      <a href="{{ product_rainwater_goods }}" class="w3-bar-item w3-button">ALL</a>
+      <a href="{{ product_guttering }}" class="w3-bar-item w3-button">GUTTERING</a>
+      <a href="{{ product_fascia }}" class="w3-bar-item w3-button">FASCIA</a>
+      <a href="{{ product_downpipes }}" class="w3-bar-item w3-button">DOWNPIPES</a>
+    </div>
+  </div>
+  <div onclick="myFunction2()" class="w3-dropdown-click">
+    <button class="mobile_sidebar_text w3-button sidebar-border-top">
+      FLASHINGS
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div id="Dropdown2" class="w3-dropdown-content w3-bar-block">
+      <a href="{{ product_flashings }}" class="w3-bar-item w3-button">ALL</a>
+      <a href="{{ product_ridges }}" class="w3-bar-item w3-button">RIDGES</a>
+      <a href="{{ product_valleys }}" class="w3-bar-item w3-button">VALLEYS</a>
+      <a href="{{ product_barge_cappings }}" class="w3-bar-item w3-button">BARGE CAPPINGS</a>
+      <a href="{{ product_aprons }}" class="w3-bar-item w3-button">APRONS</a>
+      <a href="{{ product_box_gutters }}" class="w3-bar-item w3-button">BOX GUTTERS</a>
+      <a href="{{ product_flat_sheet }}" class="w3-bar-item w3-button">FLAT SHEET</a>
+      <a href="{{ product_window_flashings }}" class="w3-bar-item w3-button">WINDOW FLASHINGS</a>
+    </div>
+  </div>
+  <a href="{{ product_polycarbonate }}" class="mobile_sidebar_text w3-bar-item w3-button sidebar-border-top"
+    >POLYCARBONATE</a
+  >
+  <a href="{{ product_insulation }}" class="mobile_sidebar_text w3-bar-item w3-button sidebar-border-top">INSULATION</a>
+  <div class="w3-dropdown-click">
+    <button onclick="myFunction3()" class="mobile_sidebar_text w3-button sidebar-border-top sidebar-border-bottom">
+      ACCESSORIES
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div id="Dropdown3" class="w3-dropdown-content w3-bar-block">
+      <a href="{{ product_accessories }}" class="w3-bar-item w3-button">ALL</a>
+      <a href="{{ product_roofing_fasteners }}" class="w3-bar-item w3-button">ROOFING FASTENERS</a>
+      <a href="{{ product_gutter_guard }}" class="w3-bar-item w3-button">GUTTER GUARD</a>
+      <a href="{{ product_foam_strips }}" class="w3-bar-item w3-button">FOAM STRIPS</a>
+      <a href="{{ product_roofing_tools }}" class="w3-bar-item w3-button">ROOFING TOOLS</a>
+      <a href="{{ product_downpipe_accessories }}" class="w3-bar-item w3-button">DOWNPIPE ACCESSORIES</a>
+      <a href="{{ product_fascia_accessories }}" class="w3-bar-item w3-button">FASCIA ACCESSORIES</a>
+      <a href="{{ product_adhesive_products }}" class="w3-bar-item w3-button">ADHESIVE PRODUCTS</a>
+    </div>
+  </div>
+</div>
+<div id="state-header" class="background-blue" style="padding: 5px; width: 100%">
+  <!-- CONTAINER -->
+  <div class="container">
+    <div class="row">
+      <div class="col notmobile">
+        <!-- empty div for spacing on desktop -->
+      </div>
+      <div class="col text-center" style="text-align: center; color: #fff; font-size: 22px">
+        <i class="fas fa-map-marker-alt align-middle orange"></i>
+        <span class="align-middle ml-1"> Please select State: </span>
+        <select
+          class="text-white align-middle border-square-orange"
+          name="navbarDropdownState"
+          id="navbarDropdownState"
+          val="{{ request.session.state_selected }}"
+          style="position: relative; text-align: center; color: #fff; background: none"
+        >
+          <!-- No state -->
+          {% if not request.session.state_selected %}
+          <option class="select-state-option" id="SS" value="SS" disabled selected>Select State</option>
+          {% endif %}
+          <!-- ACT -->
+          {% if request.session.state_selected == 'ACT' %}
+          <option class="select-state-option" id="ACT" value="ACT" selected>A.C.T</option>
+          {% else %}
+          <option class="select-state-option" id="ACT" value="ACT">A.C.T</option>
+          {% endif %}
+          <!-- NSW -->
+          {% if request.session.state_selected == 'NSW' %}
+          <option class="select-state-option" id="NSW" value="NSW" selected>NSW</option>
+          {% else %}
+          <option class="select-state-option" id="NSW" value="NSW">NSW</option>
+          {% endif %}
+          <!-- NT -->
+          {% if request.session.state_selected == 'NT' %}
+          <option class="select-state-option" id="NT" value="NT" selected>NT</option>
+          {% else %}
+          <option class="select-state-option" id="NT" value="NT">NT</option>
+          {% endif %}
+          <!-- QLD -->
+          {% if request.session.state_selected == 'QLD' %}
+          <option class="select-state-option" id="QLD" value="QLD" selected>QLD</option>
+          {% else %}
+          <option class="select-state-option" id="QLD" value="QLD">QLD</option>
+          {% endif %}
+          <!-- SA -->
+          {% if request.session.state_selected == 'SA' %}
+          <option class="select-state-option" id="SA" value="SA" selected>SA</option>
+          {% else %}
+          <option class="select-state-option" id="SA" value="SA">SA</option>
+          {% endif %}
+          <!-- TAS -->
+          {% if request.session.state_selected == 'TAS' %}
+          <option class="select-state-option" id="TAS" value="TAS" selected>TAS</option>
+          {% else %}
+          <option class="select-state-option" id="TAS" value="TAS">TAS</option>
+          {% endif %}
+          <!-- VIC -->
+          {% if request.session.state_selected == 'VIC' %}
+          <option class="select-state-option" id="VIC" value="VIC" selected>VIC</option>
+          {% else %}
+          <option class="select-state-option" id="VIC" value="VIC">VIC</option>
+          {% endif %}
+          <!-- WA -->
+          {% if request.session.state_selected == 'WA' %}
+          <option class="select-state-option" id="WA" value="WA" selected>WA</option>
+          {% else %}
+          <option class="select-state-option" id="WA" value="WA">WA</option>
+          {% endif %}
+        </select>
+      </div>
+      <!-- Login / cart on desktop -->
+      <div class="col notmobile text-right" style="color: white">
+        <!-- PHONE NUMBER -->
+        <i class="fas fa-phone orange"></i>
+        <span class="mr-2 orange"> 1300 886 944 </span>
+        <!-- ACCOUNT SECTION -->
+        {% if request.user.is_authenticated %}
+        <a class="notmobile" href="{{ account_url }}">
+          <i class="fas fa-user larger_icons" style="color: white"></i>
+          <a class="notmobile inherit" href="{{ logout_url }}"> LOGOUT </a>
+          {% else %}
+          <a class="notmobile inherit" href="{{ login_url }}"
+            ><i class="fas fa-user larger_icons"></i>
+            <span class="notmobile">LOGIN</span>
+          </a>
+          {% endif %}
+        </a>
+        <!-- END ACCOUNT SECTION -->
+        <!-- CART SECTION -->
+        <span class="ml-2">
+          <a class="notmobile text-dark font-size-20" href="#">
+            <a class="inherit" href="{{ cart_url }}">
+              <i id="cartNav" class="fa fa-shopping-cart larger_icons" aria-hidden="true"></i>
+              <span class="cart-badge badge-warning" id="lblCartCount">
+                {% if request.session.cart_items > 0 %} {{ request.session.cart_items }} {% else %}0{% endif %}
+              </span>
+            </a>
+          </a>
+        </span>
+        <!-- END CART SECTION -->
+      </div>
+    </div>
+  </div>
+  <!-- END CONTAINER -->
+</div>
+<div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: 5px; margin-bottom: 5px" id="header-just-down-div">
+  <div class="container">
+    <div class="row mt-2">
+      <div class="col notmobile"></div>
+      <div class="onlymobile">
+        <!-- Removed button and added a-tag -->
+        <a style="color: black" onclick="openNav()"><i class="fas fa-bars larger_icons mt-2"></i></a>
+      </div>
+      <div class="col text-center no-padding mt-1">
+        <a href="/">
+          <img class="banner_img" src="{% static 'img/banner-reduced.jpg' %}" />
+        </a>
+      </div>
+      <!-- SEARCH ICON -->
+      <div class="onlymobile text-right mr-2" style="min-width: 40px">
+        <a class="inherit" href="tel:1300 886 944">
+          <i class="fas fa-phone mr-2 mt-2 larger_icons"></i>
+        </a>
+        <a class="text-dark font-size-20 mt-4" href="#">
+          <a class="inherit" href="{{ cart_url }}">
+            <i id="cartNav" class="fa fa-shopping-cart larger_icons" aria-hidden="true"></i>
+            <span class="cart-badge badge-warning" id="lblCartCount">
+              {% if request.session.cart_items > 0 %} {{ request.session.cart_items }} {% else %}0{% endif %}
+            </span>
+          </a>
+        </a>
+        <i class="search-button fa fa-search pointer larger_icons ml-1" aria-hidden="true"></i>
+      </div>
+      <div class="notmobile col text-right">
+        <i class="search-button align-bottom fa fa-search pointer fa-lg" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <nav class="navbar notmobile navbar-expand-lg background-white">
+    <div class="navbar-collapse collapse justify-content-center text-center" id="navbarSupportedContent">
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            >ROOFING IRON
+          </a>
+          <div class="dropdown-menu" aria-labelledby="roofing-iron-dropdown" readonly>
+            <a class="dropdown-item text-center" href="{{ product_roofing_iron }}">ALL</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-center" href="{{ product_colorbond }}">COLORBOND®</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-center" href="{{ product_zincalume }}">ZINCALUME®</a>
+          </div>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            >GUTTERING
+          </a>
+          <div class="dropdown-menu" aria-labelledby="roofing-iron-dropdown" readonly>
+            <a class="dropdown-item text-center" href="{{ product_guttering }}">ALL</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-center" href="{{ product_quad }}">QUAD GUTTER</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-center" href="{{ product_sheerline }}">SHEERLINE GUTTER</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-center" href="{{ product_trimline }}">TRIMLINE GUTTER</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-center" href="{{ product_half_round }}">HALF ROUND GUTTER</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ product_fascia }}">FASCIA</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ product_downpipes }}">DOWNPIPES</a>
+        </li>
+        <!-- Flashings -->
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            >FLASHINGS
+          </a>
+          <div class="dropdown-menu" aria-labelledby="rainwater-goods-dropdown" readonly>
+            <a class="dropdown-item text-center" href="{{ product_flashings }}">ALL</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-center" href="{{ product_ridges }}">RIDGES</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-center" href="{{ product_valleys }}">VALLEYS</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-center" href="{{ product_barge_cappings }}">BARGE CAPPINGS</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-center" href="{{ product_aprons }}">APRONS</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-center" href="{{ product_box_gutters }}">BOX GUTTERS</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-center" href="{{ product_flat_sheet }}">FLAT SHEET</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-center" href="{{ product_window_flashings }}">WINDOW FLASHINGS</a>
+          </div>
+        </li>
+        <!-- Polycarbonate -->
+        <li class="nav-item {% if request.path == register_url %}active{% endif %}">
+          <a class="nav-link" href="{{ product_polycarbonate }}">POLYCARBONATE</a>
+        </li>
+        <!-- Insulation -->
+        <li class="nav-item {% if request.path == register_url %}active{% endif %}">
+          <a class="nav-link" href="{{ product_insulation }}">INSULATION</a>
+        </li>
+        <!-- Accessories -->
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            >ACCESSORIES</a
+          >
+          <div class="dropdown-menu" aria-labelledby="rainwater-goods-dropdown" readonly>
+            <a class="dropdown-item text-center" href="{{ product_accessories }}">ALL</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-center" href="{{ product_roofing_fasteners }}">ROOFING FASTENERS</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-center" href="{{ product_gutter_guard }}">GUTTER GUARD</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-center" href="{{ product_foam_strips }}">FOAM STRIPS</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-center" href="{{ product_roofing_tools }}">ROOFING TOOLS</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-center" href="{{ product_downpipe_accessories }}">DOWNPIPE ACCESSORIES</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-center" href="{{ product_fascia_accessories }}">FASCIA ACCESSORIES</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-center" href="{{ product_adhesive_products }}">ADHESIVE PRODUCTS</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <!--<ul class="navbar-nav notmobile">
+        <li class="nav-item">
+            <a class="nav-link" id='search-button'>
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>-->
+  </nav>
+  <div class="row text-center mx-3 justify-content-center mb-3" id="search-bar" hidden>
+    <!-- <input style='width: 95%' class="borderless text-center" id='search' placeholder="TYPE KEYWORD(S) HERE"/>
+     -->
+    {% include 'search/snippets/search-form.html' %}
+  </div>
+</div>
+<div class="notmobile container hide_images_mobile">{% get_header_message_checkout %}</div>
+<script>
+  function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+  }
+
+  function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+  }
+
+  function myFunction0() {
+    var x = document.getElementById("Dropdown0");
+    if (x.className.indexOf("w3-show") == -1) {
+      x.className += " w3-show";
+    } else {
+      x.className = x.className.replace(" w3-show", "");
+    }
+  }
+
+  function myFunction1() {
+    var x = document.getElementById("Dropdown1");
+    if (x.className.indexOf("w3-show") == -1) {
+      x.className += " w3-show";
+    } else {
+      x.className = x.className.replace(" w3-show", "");
+    }
+  }
+
+  function myFunction2() {
+    var x = document.getElementById("Dropdown2");
+    if (x.className.indexOf("w3-show") == -1) {
+      x.className += " w3-show";
+    } else {
+      x.className = x.className.replace(" w3-show", "");
+    }
+  }
+
+  function myFunction3() {
+    var x = document.getElementById("Dropdown3");
+    if (x.className.indexOf("w3-show") == -1) {
+      x.className += " w3-show";
+    } else {
+      x.className = x.className.replace(" w3-show", "");
+    }
+  }
+</script>

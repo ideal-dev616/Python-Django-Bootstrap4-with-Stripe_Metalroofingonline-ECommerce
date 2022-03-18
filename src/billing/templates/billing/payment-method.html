@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class='col-10 col-md-6 mx-auto mb-3'>
+    <h1>Add Payment Method</h1>
+    <div class='stripe-payment-form' data-token='{{ publish_key }}' data-next-url='{% if next_url %}{{ next_url }}{% endif %}' data-btn-title='ADD CARD'></div>
+</div>
+
+<!-- <div class='border-square-blue'>
+    <h4 class='m-2'>Card Payment</h4>
+
+    <div class='stripe-payment-form' data-token='{{ publish_key }}' data-next-url='{{ request.build_absolute_uri }}' data-btn-title='ADD CARD'></div>
+</div> -->
+
+{% endblock %}

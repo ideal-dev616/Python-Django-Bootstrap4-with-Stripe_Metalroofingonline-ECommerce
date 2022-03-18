@@ -1,0 +1,429 @@
+{% load static %}
+{% url 'products:list' as product_list_url %}
+{% load get_cart from custom_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script>
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga('create', 'UA-36857841-2', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-36857841-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-36857841-2');
+    </script> -->
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <link rel="canonical" href="https://www.metalroofingonline.com.au{{ request.path }}"/>
+    <link rel="icon" type="image/png" href="{% static 'img/favicon.ico' %}">
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
+
+    {% if object.meta_title %}
+        <title>{{ object.meta_title }}</title>
+    {% elif meta_title %}
+        <title>{{ meta_title }}</title>
+    {% else %}
+        <title>COLORBOND Roofing Materials, Corrugated Iron</title>
+    {% endif %}
+
+    {% if object.meta_description %}
+        <meta name="description" content="{{ object.meta_description }}">
+    {% elif meta_description %}
+        <meta name="description" content="{{ meta_description }}">
+    {% else %}
+        <meta name="description" content="SHOP Australia's premier metal COLORBOND® roofing online store at Lowest prices with FAST delivery. Corrugated Iron and much more.">
+    {% endif %}
+
+    {% include 'base/css.html' %} {% block base_head %}{% endblock %}
+    <style type="text/css">
+        .sidenav.vertical-nav {
+            width: 300px !important;
+            min-width: 250px;
+            max-width: 250px;
+            position: relative;
+            background-color: #013E7D;
+            padding-top: 20px;
+            padding-bottom: 10px;
+            margin-right: 20px;
+        }
+
+        .sidenav.vertical-nav a {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            text-align: left;
+            color: #ffffff !important;
+            display: block;
+        }
+
+        .sidenav.vertical-nav a:hover {
+            color: #f1f1f1;
+            /* padding: 0px 10px; */
+        }
+
+        .navbar-nav.vertical-nav {
+            display: block;
+        }
+
+        .navbar.notmobile.navbar-expand-lg.vertical-nav {
+            color: white;
+        }
+
+        /* .navbar-nav.second-nav {
+            padding-left: 30px;
+        } */
+
+        .navbar-nav.side-nav {
+            display: block !important;
+        }
+
+        /* nav ul {
+            
+        } */
+
+        .my-sticky {
+            position: fixed !important;
+            left: 15px;
+            top: 45px;
+            overflow: hidden;
+        }        
+
+        /* .my-sticky + .content {
+            padding-top: 120px;
+        } */
+
+        .product-row-sticky {
+            margin-left: 255px;
+        }
+
+        @media only screen and (min-width:1640px) {
+            .my-sticky {
+                left: calc( 50% - 805px );
+            }
+        }
+
+        .header-just-down-div-sticky {
+            margin-top: 45px;
+        }
+
+        .container.container_with_sidebar {
+            display: flex !important;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            }
+
+        @media only screen and (max-width:991px) {
+            .sidenav.vertical-nav {
+                display: none;
+            }
+        }
+
+        
+
+    </style>
+</head>
+
+<body style="background-color: #F5F5F5;">
+    <div class='remodal-bg'>
+    <form class='form' method="post"> {% csrf_token %}
+        <input type='hidden' name='state_selected' id='state_selected' value='default'/>
+    </form>
+    {% include 'base/navbar.html' with brand_name='eCommerce' %}
+    {% get_cart %}
+    {% if request.path == '/' %}
+    <!-- Home page specific scripts -->
+    <script src="{% static 'js/elfsight-instagram-feed.js' %}"></script>
+
+    <header>
+    </header>
+
+    <!-- <div class='container-fluid my-3 py-4' style='background-color: #f5f5f5'>
+        <div class="col text-center">
+            <h1>Metal Roofing Online</h1>
+            <h5 class='text-blue mb-2'>
+            <img class='mr-2' src='{% static 'img/triangle.png' %}' height='20px'>
+            <strong> We offer a wide range of products from the biggest brands </strong></h5>
+            <img class='mr-2 mb-2' src='{% static 'img/logo-colorbond.png' %}' height='75px' alt='logo colorbond'>
+            <img class='mr-4 mb-2' src='{% static 'img/zincalume-logo.png' %}' height='30px' alt='logo zincalume'>
+            <img class='mr-2 mb-2' src='{% static 'img/bluescope-logo.png' %}' height='60px' alt='logo bluescope'>
+        </div>
+    </div> -->
+
+    {% if request.session.state_selected == 'ACT' or  request.session.state_selected == 'NSW' or request.session.state_selected == 'QLD' or request.session.state_selected == 'VIC' %}
+    <div class='container mt-5'>
+      {% include 'base/featured.html' %}
+    </div>
+    {% endif %}
+
+    <div class='container mt-5'>
+    <!-- YouTube Section -->
+        <h3 class='text-center mt-5'>YouTube</h3>
+        <hr class="home-page-underline">
+        <div class='row justify-content-center mb-4' style='max-height:250px; min-height:250px'>
+            {% for video in videos %}
+            <div class='col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-1'>
+                <div class="video-wrap">
+                    <div class="video-container">
+                        {% autoescape off %}
+                        {{ video.embed }}
+                        {% endautoescape %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <!-- End Youtube Section -->
+
+        <!-- Details Section -->
+        <h3 class='text-center mt-5'>Details</h3>
+        <hr class="home-page-underline">
+                <div class='row'>
+                    <!-- Empty space to left side -->
+                    <div class='col-lg-1'>
+                    </div>
+                    <div class='col-lg-5 col-sm-12 col-sm-mb-2 mb-3 border-LightSteelBlue m-1'>
+                        <h5 class='text-blue my-3 ml-1'>
+                            <img class='mr-2' src='{% static 'img/triangle.png' %}' height='20px'>
+                            Metal Roofing Online
+                        </h5>
+
+                        <!-- YES WE DELIVER -->
+                        <div class='row'>
+                            <div class='col-2 mt-2 ml-1 text-center'>
+                                <i class="fas fa-truck fa-2x text-blue"></i>
+                            </div>
+                            <div class='col-9 ml-2'>
+                                <p class='text-blue no-padding-margin'>
+                                    YES WE DELIVER!
+                                </p>
+                                <p style='font-size:12px; color: silver'>
+                                    Just let us know where you want your goods delivered and we will get them there. Pick up is also available for Victorian customers.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- CALL US TODAY -->
+                        <div class='row'>
+                            <div class='col-2 mt-2 ml-1 text-center'>
+                                <i class="fas fa-phone fa-2x text-blue"></i>
+                            </div>
+                            <div class='col-9 ml-2'>
+                                <p class='text-blue no-padding-margin'>
+                                    CALL US TODAY!
+                                </p>
+                                <p class="no-padding-margin" style='font-size:12px; color: silver'>
+                                    We can help with technical & sales matters.
+                                </p>
+                                <p class='text-orange'>
+                                    1300 886 944
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- PAYMENT -->
+                        <div class='row'>
+                            <div class='col-2 mt-2 ml-1 text-center'>
+                                <i class="fas fa-credit-card fa-2x text-blue"></i>
+                            </div>
+                            <div class='col-9 ml-2'>
+                                <p class='text-blue no-padding-margin'>
+                                    PAYMENT
+                                </p>
+                                <p style='font-size:12px; color: silver'>
+                                    We accept all major credit cards and Paypal. <br/>
+                                    <img class='mr-1' src='{% static 'img/paypal.png' %}' height='20px'>
+                                    <img class='mr-1' src='{% static 'img/mastercard.png' %}' height='30px'>
+                                    <img src='{% static 'img/visa.png' %}' height='20px'>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class='col-lg-5 col-sm-12 mb-3 border-LightSteelBlue m-1'>
+                        <h5 class='text-blue my-3 ml-1'>
+                            <img class='mr-2' src='{% static 'img/triangle.png' %}' height='20px'>
+                            We specialise in the supply of:
+                        </h5>
+                        <p style='font-size:12px; color: silver'>
+                            All roof plumbing materials including corrugated iron, polycarbonate roofing sheets, custom made roof flashings, fastenings, gutters and more.
+                        </p>
+                        <p style='font-size: 15px; color: black'>
+                            Our range includes:
+                            <ul class="no-padding-margin pl-3" style='font-size:12px; color: silver'>
+                                <li> ZINCALUME® & COLORBOND® corrugated iron sheets & many more profiles </li>
+                                <li> Guttering, Metal Fascia & more </li>
+                                <li> Roof flashings custom made to your requirements - FAST! </li>
+                                <li> Polycarbonate roofing </li>
+                                <li> Roofing Fasteners & other great tools & accessories </li>
+                            </ul>
+                        </p>
+                        <p class='text-blue' style='font-size: 13px; display:inline;'>
+                            So Don't Hesitate. Call Metal Roofing Online today on:
+                        </p>
+                        <p class='text-orange' style="display:inline"> 1300 886 944</p>
+                    </div>
+                    <!-- Empty space to right side -->
+                    <div class='col-lg-1'>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- STATE SELECTION POPUP -->
+        <div class='remodal' data-remodal-id="modal">
+            <button data-remodal-action="close" class="remodal-close"></button>
+            <h4>Where are you shopping for today?</h4>
+            <p>Delivery State:</p>
+            <div class='text-center justify-content-center'>
+                <select class='mb-3' id='state_popup'>
+                    <option id='ACT_popup' value='ACT'>A.C.T</option>
+                    <option id='NSW_popup' value='NSW'>NEW SOUTH WALES</option>
+                    <option id='NT_popup' value='NT'>NORTHERN TERRITORY</option>
+                    <option id='QLD_popup' value='QLD'>QUEENSLAND</option>
+                    <option id='SA_popup' value='SA'>SOUTH AUSTRALIA</option>
+                    <option id='TAS_popup' value='TAS'>TASMANIA</option>
+                    <option id='VIC_popup' value='VIC'>VICTORIA</option>
+                    <option id='WA_popup' value='WA'>WESTERN AUSTRALIA</option>
+                </select>
+            </div>
+            Please note: item availability may change.
+        </div>
+
+        <div class='container-fluid'>
+            {% if messages %}
+            {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="alert alert-danger messages mt-3">
+                        <span{% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                            <strong>ERROR: </strong>{{ message }}
+                            <br/>
+                            </span>
+                    </div>
+                {% else %}
+                    <div class="alert alert-success messages">
+                        <span{% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                            {{ message }}
+                            <br/>
+                        </span>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            {% endif %} {% block content %}{% endblock %}
+        </div>
+    </div>
+</body>
+{% include 'base/footer.html' %}
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script
+  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+  crossorigin="anonymous"
+></script>
+
+<!-- Bootstrap carousel js -->
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+  integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+  integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+  crossorigin="anonymous"
+></script>
+<script>
+    $(window).on('load',function(){
+        console.log("on load()");
+        $('#selectStateModal').modal('show');
+        // window.$('#selectStateModal').modal('show');
+        window.onscroll = function() {
+            if (document.getElementById("container_with_sidebar") !==null && document.getElementById("container_with_sidebar").style.display != "none") {
+                myFunction();
+            }
+        };
+
+        // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
+        function myFunction() {
+            // Get the navbar
+            var navbar = document.getElementById("sticky-navbar");
+            var footer = document.getElementById("page-footer");
+            var product_row = document.getElementById("product_row");
+            var header = document.getElementById("state-header");
+            var header_just_down_div = document.getElementById("header-just-down-div");
+            var sticky_header = header.offsetTop;
+            // Get the offset position of the navbar
+            var sticky = navbar.offsetTop;
+            
+            if (window.pageYOffset >= sticky) {
+                // if (window.pageYOffset + navbar.scrollHeight >= footer.offsetTop) { 
+                //     console.log("yes");
+                //     navbar.classList.remove("my-sticky");
+                //     product_row.classList.remove("product-row-sticky");
+                // } else {
+                    navbar.classList.add("my-sticky");
+                    console.log("display = ", window.getComputedStyle(navbar, null).display);
+                    // product_row.classList.add("product-row-sticky");
+                    if (window.getComputedStyle(navbar, null).display != "none") {
+                        product_row.classList.add("product-row-sticky");
+                    } else {
+                        product_row.classList.remove("product-row-sticky");
+                    }
+                    // navbar.left = 100;
+                // }
+            } else {
+                navbar.classList.remove("my-sticky");
+                if (navbar.style.display == "none") {
+                    product_row.classList.add("product-row-sticky");
+                } else {
+                    product_row.classList.remove("product-row-sticky");
+                }
+            }
+
+            if (window.pageYOffset > sticky_header) {
+                header.classList.add("sticky");
+                // header_just_down_div.classList.add("header-just-down-div-sticky");
+            } else {
+                header.classList.remove("sticky");
+                // header_just_down_div.classList.remove("header-just-down-div-sticky");
+            }
+        }
+    });
+</script>
+
+{% include 'base/js.html' %} {% block javascript %} {% endblock %}
+{% if request.path == '/' %}
+<script>
+    document.addEventListener('appReady.EappsInstagramFeed', function() {
+        $('.my-instashow').eappsInstagramFeed({
+            api: '{% static "js/api/index.php" %}',
+            source: '@muradosmann',
+            width: 'auto',
+            layout: 'grid',
+            columns: 5,
+            rows: 3,
+            lang: 'en'
+        });
+    });
+
+    
+
+    
+</script>
+{% endif %}
+</html>

@@ -1,0 +1,154 @@
+{% extends "base/base_page/checkout_base.html" %} {% load static %} {% block content %}
+{% if object %}
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel">Thank you!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center" id="modal-body">
+        <i class="fas fa-circle-notch fa-spin fa-4x blue" style='color: #ee902d;'></i>
+        <br/>
+        Your order is currently being processed, you will be redirected shortly.
+        <br/>
+        <span style='color: lightgrey; font-size: 14px; text-align: center;'>Please don't refresh or navigate off this page.</span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button id='modal-btn' type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" hidden>
+  Launch demo modal
+</button>
+
+<div class="container mt-4">
+    <div class="row">
+        <!-- col -->
+        <div class='col-lg-8 col-md-6 col-sm-12 col-xs-12'>
+            <div class='row'>
+                <div class='col'>
+                    <h4>
+                        You're almost there! Please confirm your order.
+                        <hr>
+                    </h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class='col-md-6 col-sm-6'>
+                    <div style="margin-left:10px">
+                        <strong>BILLED TO:</strong>
+                        <br /> {{ object.billing_address.first_name }} {{object.billing_address.last_name }}
+                        <br /> {{object.billing_address.address_line_1}}
+                        <br /> {{object.billing_address.state }}, {{object.billing_address.city }}, {{object.billing_address.postal_code }}
+                        <br /> {{ object.billing_address.country }}
+                        <br /><b> Customer email: </b>{{ object.billing_profile.email }}
+                    </div>
+                    <br />
+                </div>
+                <div class='col-md-6 col-sm-6'>
+                    <div style="margin-left:10px">
+                        <strong>SHIPPING TO:</strong>
+                        <br /> {{ object.shipping_address.first_name }} {{object.shipping_address.last_name }}
+                        <br /> {{object.shipping_address.address_line_1}}
+                        <br /> {{object.shipping_address.state }}, {{object.shipping_address.city }}, {{object.shipping_address.postal_code }}
+                        <br /> {{ object.shipping_address.country }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- COL -->
+        <div class='col-lg-4 col-md-6 col-sm-12 col-xs-12'>
+            <div class='row'>
+                <div class='col'>
+                    <div class='checkout-summary mt-2'>
+                        <div class='row delivery-form text-center mb-3'>
+                            <div class='col'>
+                                YOUR ORDER
+                            </div>
+                        </div>
+                        <!-- Items in cart -->
+                        <div class='row mt-2'>
+                            <div class='col text-left ml-4 mr-4'>
+                                <hr style='border-color: white' />
+                                {% for item in object.orderitem_set.all %}
+                                <div class='row'>
+                                    <div class='col-1 mr-2 text-left'>
+                                        <img src="{{ item.product.imageoption_set.first.option.image.url }}" alt="{{ item.imageoption_set.first.option.alt}}" height=40 width=30>
+                                    </div>
+                                    <div class='col-8 text-left'>
+                                        {% if request.session.state_selected == 'QLD' %}
+                                            {{ item.product.qld_title }}
+                                        {% elif request.ession.state_selected == 'NSW' %}
+                                            {{ item.product.nsw_title }}
+                                        {% else %}
+                                            {{ item.product.vic_title }}
+                                        {% endif %}
+                                        <br />
+                                        <div class='mr-1 inline'>
+                                            Qty: {{ item.quantity }}
+                                        </div>
+                                        {% if item.colour %}
+                                        <div class='mr-1 inline'>
+                                            {{ item.colour }}
+                                        </div>
+                                        {% endif %}                                        
+                                    </div>
+                                    <div class='col text-right'>
+                                        ${{ item.price }}
+                                    </div>
+                                </div>
+                                <hr style='border-color: white' />
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!-- Delivery -->
+                        <div class='row my-2'>
+                            <div class='col text-left ml-4'>
+                                Delivery
+                            </div>
+                            <div class='col text-right mr-4'>
+                                $<span id='delivery-amount'>{{ object.shipping_total }}</span>
+                            </div>
+                        </div>
+                        <!-- Total -->
+                        <div class='row'>
+                            <div class='col text-left ml-4'>
+                                Total
+                            </div>
+                            <div class='col text-right mr-4'>
+                                $<span id='total'>{{ object.total }}</span><br />
+                                <input id='cart_total' value='{{ cart.total }}' hidden>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='row mt-2'>
+                <div class='col'>
+                    {% include 'carts/snippets/paypal.html' with object=object %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<form method='POST' action="/cart/checkout/success/"> {% csrf_token %}
+    <input class='order_id' type='hidden' name='order_id' value='{{ object.order_id }}' />
+    <input type="submit" id='paypal_checkout_button' value="checkout" style='display: none;'>
+</form>
+{% else %}
+<div class='container'>
+    <div class='row'>
+        <div class='col'>
+            <h1>Sorry, your order was not found. Please contact us at 1300 886 944 or email us at enquiries@metalroofingonline.com.au to solve your issue.</h1>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

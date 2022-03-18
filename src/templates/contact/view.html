@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class='container'>
+  <div class='row ml-1'>
+    <h3 class='text-blue'>
+      <img class='mr-2' src='{% static 'img/triangle.png' %}' height='20px'>
+      Contact Us
+    </h3>
+  </div>
+  <div class='row'>
+    <div class='col-md-4 col-sm-12'>
+      <div class='my-3'>
+        <p style='font-size:14px; color: silver'>
+            Do you have a question or would like more information on any of our products or services?
+            <br/>
+            <br/>
+            Here's how to get in touch with us:
+        </p>
+        <p class='text-blue' style="display:inline">
+          <i class="fas fa-phone text-orange mr-2"></i> Call us on
+        </p>
+        <p class='text-orange' style="display:inline">
+          1300 886 944
+        </p>
+        <br>
+        <br>
+        <p class='text-blue' style="display:inline">
+          <i class="fas fa-phone text-orange mr-2"></i>Email us
+        </p>
+        <p class='text-orange' style="display:inline">
+          enquiries@metalroofingonline.com.au
+        </p>
+        <br>
+        <br>
+        <p style='font-size:14px; color: silver'>
+          Please note, this online merchant is located in Australia.
+        </p>
+      </div>
+    </div>
+
+    <div class='col-md-8 col-sm-12'>
+        <div class='row'>
+          <div class='col mb-5 mt-3'>
+            <form class='contact-form' method='POST' action='{% url "contact" %}'> {% csrf_token %}
+              {% for field in form %}
+              <div class="form-label-group">
+                {{ field }}
+                <label class="text-silver" for='{{field.name}}'>{{field.label}}</label>
+              </div>
+              {{ field.errors }}
+              {% endfor %}
+              <p style='font-size:14px; color: silver'>Fields with an asterix are required.</p>
+              <button style='font-size:16px;' type='submit' class='btn background-orange text-white btn-lg btn-block'>SEND MESSAGE ></button>
+            </form>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+{% endblock %}
