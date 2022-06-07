@@ -2,7 +2,7 @@
 
 ## Getting Started
 ### Dependencies
-I suggest that venv should be created in the project root folder.
+Venv should be created in the project root folder.
 - Python
 - pip install from requirements-dev.txt
 
